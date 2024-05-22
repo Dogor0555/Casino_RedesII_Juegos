@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Casino Ala Negra</title>
-  <link rel="icon" href="{{url('public/images/logo-uso.ico')}}" type="image/x-icon">
+  <link rel="icon" href="{{url('public/images/LOGOCA.jpeg')}}" type="image/x-icon">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="{{ url ('public/dist/css/adminlte.min.css')}}">
   <style>
     body{
-      background-image: url('{{ url("public/images/casinoFondo3.jpg") }}'); /* Añade la imagen de fondo */
+      background-image: url('{{ url("public/images/FONDOcA.jpeg") }}'); /* Añade la imagen de fondo */
       background-size: cover; /* Ajusta el tamaño de la imagen de fondo */
       background-position: center; /* Centra la imagen de fondo */
       background-repeat: no-repeat; /* Evita que la imagen de fondo se repita */
@@ -47,7 +47,7 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
   <div class="card-header text-center">
-      <img class="img-fluid img-thumbnail" src="{{ url ('public/images/logoCasino.jpg')}}" alt="">
+      <img class="img-fluid img-thumbnail" src="{{ url ('public/images/LOGOCA.jpeg')}}" alt="">
   </div>
     <div class="card-body">
       <p class="login-box-msg">Iniciar Sesión</p>
@@ -83,8 +83,9 @@
           </div>
           <!-- /.col -->
           <div class="col-6">
-            <button type="submit" class="btn btn-primary btn-block">Iniciar</button>
+          <button type="submit" class="btn btn-primary btn-block" style="background-color: black; color: white;">Iniciar</button>
           </div>
+
           <!-- /.col -->
         </div>
       </form>

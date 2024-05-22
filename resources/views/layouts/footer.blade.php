@@ -1,7 +1,7 @@
 <footer class="main-footer text-center">
   <div class="mb-3">
-      <strong>Copyright &copy; <?php echo date("Y"); ?> <a href="">AEFI</a>.</strong>
-      Todos los derechos reservados - UNIVERSIDAD DE SONSONATE
+      <strong>Copyright &copy; <?php echo date("Y"); ?> <a href="">Casino Black Wing</a>.</strong>
+      Todos los derechos reservados - Casino Black Wing
   </div>
   <div class="float-none">
       <b>Version</b> 1.0.0

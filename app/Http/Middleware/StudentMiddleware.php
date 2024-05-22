@@ -15,7 +15,7 @@ class StudentMiddleware{
      */
     public function handle(Request $request, Closure $next): Response {
         if(!empty(Auth::check())){
-         if(Auth::user()->user_type == 3){
+         if(Auth::user()->user_type ==7){
              return $next($request);
 
          }else{

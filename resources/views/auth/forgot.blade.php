@@ -4,19 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AEFI - Recuperar contraseña</title>
-  <link rel="icon" href="{{ url('public/images/logo-uso.ico') }}" type="image/x-icon">
+  <link rel="icon" href="{{ url('public/images/LOGOCA.jpeg') }}" type="image/x-icon">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="{{ url('public/plugins/fontawesome-free/css/all.min.css') }}">
   <link rel="stylesheet" href="{{ url('public/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
   <link rel="stylesheet" href="{{ url('public/dist/css/adminlte.min.css') }}">
   <style>
     body {
-      background: rgb(29, 69, 131);
-      background: linear-gradient(90deg, rgba(29, 69, 131, 1) 0%, rgba(46, 132, 60, 1) 100%);
+      background-image: url('{{ url("public/images/FONDOcA.jpeg") }}'); /* Añade la imagen de fondo */
+      background-size: cover; /* Ajusta el tamaño de la imagen de fondo */
+      background-position: center; /* Centra la imagen de fondo */
+      background-repeat: no-repeat; /* Evita que la imagen de fondo se repita */
     }
     .login-box,
     .card {
       border-radius: 20px; /* Ajusta el radio según tus preferencias */
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      background-color: rgba(255, 255, 255, 0.32);
+      border-radius: 12px;
+      border: 1px solid rgba(209, 213, 219, 0.3);
     }
   </style>
 </head>
@@ -24,7 +31,7 @@
   <div class="login-box">
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-        <img class="img-fluid img-thumbnail" src="{{ url('public/images/logo-aefi.jpg') }}" alt="">
+        <img class="img-fluid img-thumbnail" src="{{ url('public/images/LOGOCA.jpeg') }}" alt="">
       </div>
 
       <!-- Nota de recuperación de contraseña -->
