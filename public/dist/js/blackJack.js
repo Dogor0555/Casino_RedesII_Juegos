@@ -1,9 +1,15 @@
+let anchoDocumento = $(document).width();
 // Montamos el canvas con alta resolución
 var canvas = document.getElementById("canvas");
 canvas.width = 1220 * 2;
 canvas.height = 400 * 2;
 canvas.style.width = 1220 + "px";
-canvas.style.height = 400 + "px";
+if(anchoDocumento > 1050)
+    canvas.style.height = 400 + "px";
+else if(anchoDocumento <= 1050 && anchoDocumento >= 600)
+    canvas.style.height = 600 + "px";
+else if(anchoDocumento <= 599)
+    canvas.style.height = 700 + "px";
 var ctx = canvas.getContext("2d");
 
 let pointsUser = 0;
@@ -41,13 +47,93 @@ for (i = 0; i < 100; i++) {
     cartas.splice(Math.random() * 52, 0, cartas[0]);
     cartas.shift();
 }
+function obtenerAnchoDeCarta(){
+    if(anchoDocumento > 1050)
+        return 239;
+    else if(anchoDocumento <= 1050 && anchoDocumento >= 600)
+        return 460;
+    else if(anchoDocumento <= 599 && anchoDocumento >= 300)
+        return 660;
+    else
+        return 1100;
+}
 
+function obtenerSumatoriaEspacio(){
+    if(anchoDocumento > 1050)
+        return 300;
+    else if(anchoDocumento <= 1050 && anchoDocumento >= 600)
+        return 600;
+    else if(anchoDocumento <= 599 && anchoDocumento >= 300)
+        return 820;
+    else
+        return 1200;
+}
+
+function obtenerAltoDeCarta(){
+    if(anchoDocumento > 1050)
+        return 335;
+    else if(anchoDocumento <= 1050 && anchoDocumento >= 600)
+        return 320;
+    else if(anchoDocumento <= 599 && anchoDocumento >= 300)
+        return 220;
+    else
+        return 170;
+}
+
+function validarUbicacionCarta(){
+    if(anchoDocumento > 1050){
+        carta.y = 50;
+    }
+    else if(anchoDocumento <= 1050 && anchoDocumento >= 600){
+        if(indiceCarta >= 4){
+            carta.y = 430;
+            if(indiceCarta == 4){
+                carta.x = 50;
+                //console.log(canvas.style.height);
+                //canvas.style.height = "800px";
+            }   
+        }
+    }
+    else if(anchoDocumento <= 599 && anchoDocumento >= 300){
+        if(indiceCarta >= 3 && indiceCarta < 6){
+            carta.y = 300;
+            if(indiceCarta == 3){
+                carta.x = 50;
+            }  
+        }else if(indiceCarta >= 6){
+            
+            carta.y = 550;
+            if(indiceCarta == 6){
+                carta.x = 50;
+            }  
+        }
+    }else{
+        carta.y = 10;
+        if(indiceCarta >= 2 && indiceCarta < 4){
+            carta.y = 210;
+            if(indiceCarta == 2){
+                carta.x = 50;
+            }  
+        }else if(indiceCarta >= 4 &&  indiceCarta < 6){
+            carta.y = 400;
+            if(indiceCarta == 4){
+                carta.x = 50;
+            }  
+        }else if(indiceCarta > 5){
+            carta.y = 600;
+            if(indiceCarta == 6){
+                carta.x = 50;
+            }  
+        }
+    }
+}
 function dibujarCarta(CJ) {
     // Tenemos que primero cargar la carta y luego añadir el src
     // Si no las cartas no cargan en la pagina
+    validarUbicacionCarta();
     CJ.img.onload = () => {
-        ctx.drawImage(CJ.img, carta.x, carta.y, 239, 335);
-        carta.x += 300;
+        ctx.drawImage(CJ.img, carta.x, carta.y, obtenerAnchoDeCarta(), obtenerAltoDeCarta());
+        carta.x += obtenerSumatoriaEspacio();
     };
     
     // Para cargar la imagen correcta concatenamos el numero y el palo, que coincida con el nombre del fichero

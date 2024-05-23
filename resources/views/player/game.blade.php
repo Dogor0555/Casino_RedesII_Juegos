@@ -18,15 +18,16 @@
     <input type="button" value="Plantarme" onclick="plantarme()" id="plantar" class="button">
   </div>
   <div id="info" class="hidden"></div>
-  <script type="text/javascript" src="{{ asset('public/dist/js/blackJack.js') }}"></script>
-  <input type="hidden" id="rutaimagescarta" value="{{ asset('public') }}">
+
 
   <li class="nav-item">
-          <a href="{{url('logout')}}" class="nav-link">
-            <i class="nav-icon fas fa-sign-out-alt"></i>
-            <p>Cerrar Sesión</p>
-          </a>
-        </li>
+    <a href="{{url('logout')}}" class="nav-link">
+      <i class="nav-icon fas fa-sign-out-alt"></i>
+      <p>Cerrar Sesión</p>
+    </a>
+  </li>
   <script src="{{url('public/plugins/jquery/jquery.min.js')}}"></script>
+  <script type="text/javascript" src="{{ asset('public/dist/js/blackJack.js') }}"></script>
+  <input type="hidden" id="rutaimagescarta" value="{{ asset('public') }}">
 </body>
 </html>
