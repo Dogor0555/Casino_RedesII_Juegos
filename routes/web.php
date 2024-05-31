@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\PuntajesController;
 
 
 /*
@@ -68,11 +69,9 @@ Route::group(['middleware' => 'teacher'], function(){
 
 Route::group(['middleware' => 'player'], function(){
     Route::get('player/game', [DashboardController::class,'dashboard']);
+    Route::post('player/guardarPuntaje',[PuntajesController::class,"guardarPuntaje"])->name("guardarPuntaje")->middleware("auth");
 });
 
 Route::group(['middleware' => 'parent'], function(){
     Route::get('parent/dashboard', [DashboardController::class,'dashboard']);
 });
-
-
-    

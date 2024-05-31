@@ -14,6 +14,7 @@ var ctx = canvas.getContext("2d");
 
 let pointsUser = 0;
 let pointsCrupier = 0;
+let pointsWin = 0;
 
 // Clase carta
 class carta {
@@ -151,7 +152,7 @@ function pedirCarta() {
     }
 }
 
-function plantarme() {
+async function plantarme() {
     document.getElementById("pedir").disabled = true;
     document.getElementById("plantar").disabled = true;
     document.getElementById("reset").style.visibility = "visible";
@@ -186,6 +187,7 @@ function plantarme() {
         info.innerHTML += "<br><b>Blackjack!!! Has ganado!</b>";
     } else if (pointsUser > 21) {
         info.innerHTML += "<br><b>Has perdido... Te has pasado de puntos</b>";
+        pointsWin = -50;
     } else if (pointsCrupier > 21) {
         info.innerHTML += "<br><b>Has ganado!!! El croupier se ha pasado de puntos</b>";
     } else if (pointsCrupier >= pointsUser) {
@@ -193,6 +195,43 @@ function plantarme() {
     } else {
         info.innerHTML += "<br><b>Has ganado!!!</b>";
     }
+
+    switch (pointsUser) {
+        case 20:
+            pointsWin = 80;
+        break;
+        case 19:
+            pointsWin = 70;
+        break;
+        case 18:
+            pointsWin = 60;
+        break;
+        case 17:
+            pointsWin = 50;
+        break;
+        case 16:
+            pointsWin = 40;
+        break;
+        case 15:
+            pointsWin = 30;
+        break;
+        case 14:
+            pointsWin = 20;
+        break;
+    }
+    if(pointsUser < 14)
+        pointsWin = 10;
+    var ruta = $("#rutaGuardarPuntaje").val();
+    var formData = new FormData();
+    formData.append("puntos_ganados",pointsWin);
+    formData.append("puntos_crupier",pointsCrupier);
+    formData.append("puntos_jugador",pointsUser);
+    formData.append("_token", $('#_token').val());
+    const response = await fetch(ruta, {
+        method: 'POST',
+        body: formData
+    });
+    //console.log(response.json());
 }
 
 // Recarga la pagina cuando se presiona el botón
