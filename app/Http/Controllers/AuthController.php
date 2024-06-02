@@ -28,7 +28,7 @@ class AuthController extends Controller
                return redirect('teacher/dashboard');
             }
             else if(Auth::user()->user_type == 3){
-               return redirect('player/game');
+               return redirect('player/menu');
             }
             else if(Auth::user()->user_type == 4){
                return redirect('parent/dashboard');
@@ -57,7 +57,7 @@ class AuthController extends Controller
                 return redirect('teacher/dashboard')->with('welcomeMessage', '¡Bienvenido al sistema, ' . $user->name . '!');;
              }
              else if(Auth::user()->user_type == 3){
-                return redirect('player/game')->with('welcomeMessage', '¡Bienvenido al sistema, ' . $user->name . '!');;
+                return redirect('player/menu')->with('welcomeMessage', '¡Bienvenido al sistema, ' . $user->name . '!');;
              }
              else if(Auth::user()->user_type == 4){
                 return redirect('parent/dashboard')->with('welcomeMessage', '¡Bienvenido al sistema, ' . $user->name . '!');;

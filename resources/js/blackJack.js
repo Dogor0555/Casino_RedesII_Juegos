@@ -93,7 +93,11 @@ function plantarme() {
 		info.innerHTML +="<br><b>Has ganado!!! El croupier se ha pasado de puntos</b>";
 	} else if (pointsCrupier >= pointsUser) {
 		info.innerHTML += "<br><b>Ha ganado el croupier...</b>";
-	} else {
+		
+	} else if (pointsCrupier == pointsUser) {
+		info.innerHTML += "<br><b>Han empatado...</b>";
+		
+	}else {
 		info.innerHTML += "<br><b>Has ganado!!!</b>";
 	}
 }

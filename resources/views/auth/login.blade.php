@@ -47,7 +47,7 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
   <div class="card-header text-center">
-      <img class="img-fluid img-thumbnail" src="{{ url ('public/images/LOGOCA.jpeg')}}" alt="">
+      <img class="img-fluid img-thumbnail" src="{{ url ('public/images/LogoFondoOscuro.png')}}" alt="">
   </div>
     <div class="card-body">
       <p class="login-box-msg">Iniciar Sesión</p>

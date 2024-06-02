@@ -38,7 +38,7 @@ var palos = ["S", "H", "D", "C"];
 
 // Generamos las cartas. Con atributos valor y palo
 for (i = 0; i < 4; i++) {
-    for (j = 1; j <= 13; j++) {
+    for (j = 1; j <= 11; j++) {
         cartas.push(new carta(j, palos[i]));
     }
 }
@@ -196,6 +196,7 @@ async function plantarme() {
         info.innerHTML += "<br><b>Has ganado!!!</b>";
     }
 
+
     switch (pointsUser) {
         case 20:
             pointsWin = 80;
@@ -232,9 +233,11 @@ async function plantarme() {
         body: formData
     });
     //console.log(response.json());
+
 }
 
 // Recarga la pagina cuando se presiona el botón
 function playagain() {
     location.reload(true);
 }
+

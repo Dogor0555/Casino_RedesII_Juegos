@@ -31,7 +31,7 @@
   <div class="login-box">
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-        <img class="img-fluid img-thumbnail" src="{{ url('public/images/LOGOCA.jpeg') }}" alt="">
+        <img class="img-fluid img-thumbnail" src="{{ url('public/images/LogoFondoOscuro.png') }}" alt="">
       </div>
 
       <!-- Nota de recuperación de contraseña -->
