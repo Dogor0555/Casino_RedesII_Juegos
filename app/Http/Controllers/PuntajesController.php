@@ -14,25 +14,47 @@ class PuntajesController extends Controller
             "ESTATUS" => "",
             "MENSAJE" => ""
         ];
+
         try {
-            $data = $request->except("_token");
-            $data["id_usuario"] = Auth::id();
-            if (PuntajesModel::create($data))
-                $respuesta["ESTATUS"] = "SUCCESS";
+            // Obtener el usuario autenticado
+            $usuarioId = Auth::id();
+
+            // Verificar si el usuario ya tiene un puntaje registrado
+            $puntajeUsuario = PuntajesModel::where('id_usuario', $usuarioId)->first();
+
+            if ($puntajeUsuario) {
+                // Si el usuario ya tiene un puntaje, actualizarlo
+                $puntajeUsuario->puntos_jugador += $request->puntos_jugador;
+                $puntajeUsuario->puntos_crupier += $request->puntos_crupier;
+                $puntajeUsuario->puntos_ganados += $request->puntos_ganados;
+                $puntajeUsuario->save();
+            } else {
+                // Si el usuario no tiene un puntaje, crear uno nuevo
+                $data = $request->all();
+                $data["id_usuario"] = $usuarioId;
+                PuntajesModel::create($data);
+            }
+
+            $respuesta["ESTATUS"] = "SUCCESS";
         } catch (\Throwable $th) {
             $respuesta["ESTATUS"] = "FAIL";
             $respuesta["MENSAJE"] = "OCURRIO UN ERROR AL GUARDAR EL PUNTAJE DEL JUGADOR";
             $respuesta["ERROR"] = $th->getMessage();
         }
+
         return response()->json($respuesta);
     }
 
     public function showPuntaje()
-    {
-        // Obtener los puntajes desde el modelo
-        $puntajes = PuntajesModel::with('usuario')->get();
+{
+    // Obtener los primeros 10 puntajes más altos
+    $puntajes = PuntajesModel::with('usuario')
+                ->orderBy('puntos_ganados', 'desc')
+                ->take(10)
+                ->get();
 
-        // Pasar los puntajes a la vista
-        return view('player.puntajes', compact('puntajes'));
-    }
+    // Pasar los puntajes a la vista
+    return view('player.puntajes', compact('puntajes'));
+}
+
 }

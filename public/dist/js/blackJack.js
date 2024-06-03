@@ -182,59 +182,45 @@ async function plantarme() {
         dibujarCarta(cartasCrupier[i]);
     }
 
+    // Inicializamos puntosWin
+    pointsWin = 0;
+
     // Comprobamos ganador
     if (pointsUser == 21) {
         info.innerHTML += "<br><b>Blackjack!!! Has ganado!</b>";
+        pointsWin += 100; // Aumentar puntos si el jugador obtiene Blackjack
     } else if (pointsUser > 21) {
         info.innerHTML += "<br><b>Has perdido... Te has pasado de puntos</b>";
-        pointsWin = -50;
+        pointsWin -= 50; // Disminuir puntos si el jugador se pasa de puntos
     } else if (pointsCrupier > 21) {
         info.innerHTML += "<br><b>Has ganado!!! El croupier se ha pasado de puntos</b>";
+        pointsWin += 50; // Aumentar puntos si el crupier se pasa de puntos
     } else if (pointsCrupier >= pointsUser) {
         info.innerHTML += "<br><b>Ha ganado el croupier...</b>";
+        pointsWin -= 50; // Disminuir puntos si el crupier gana
     } else {
         info.innerHTML += "<br><b>Has ganado!!!</b>";
+        pointsWin += 50; // Aumentar puntos si el jugador gana
     }
 
-
-    switch (pointsUser) {
-        case 20:
-            pointsWin = 80;
-        break;
-        case 19:
-            pointsWin = 70;
-        break;
-        case 18:
-            pointsWin = 60;
-        break;
-        case 17:
-            pointsWin = 50;
-        break;
-        case 16:
-            pointsWin = 40;
-        break;
-        case 15:
-            pointsWin = 30;
-        break;
-        case 14:
-            pointsWin = 20;
-        break;
-    }
-    if(pointsUser < 14)
-        pointsWin = 10;
+    // Enviar datos al servidor
     var ruta = $("#rutaGuardarPuntaje").val();
     var formData = new FormData();
-    formData.append("puntos_ganados",pointsWin);
-    formData.append("puntos_crupier",pointsCrupier);
-    formData.append("puntos_jugador",pointsUser);
+    formData.append("puntos_ganados", pointsWin);
+    formData.append("puntos_crupier", pointsCrupier);
+    formData.append("puntos_jugador", pointsUser);
     formData.append("_token", $('#_token').val());
+
     const response = await fetch(ruta, {
         method: 'POST',
         body: formData
     });
-    //console.log(response.json());
 
+    // Manejar la respuesta (opcional)
+    const result = await response.json();
+    console.log(result);
 }
+
 
 // Recarga la pagina cuando se presiona el botón
 function playagain() {

@@ -9,9 +9,15 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Request; 
 
-class User extends Authenticatable
+class Jugador extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+ /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'users'; // Apuntar a la tabla 'users'
 
     /**
      * The attributes that are mass assignable.
@@ -54,7 +60,7 @@ class User extends Authenticatable
 
 
  
-    static public function getAdmin() {
+    static public function getUser() {
         $return = self::select('users.*')
                         ->where('user_type', '=', 3)
                         ->where('is_delete', '=', 0);

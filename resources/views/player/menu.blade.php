@@ -14,8 +14,7 @@
   <div class="navbar">
     <div class="profile">
       <img src="{{url('public/user-profile/' . Auth::user()->user_photo)}}" class="img-circle elevation-2 rounded-circle" alt="User Image">
-      <a class="user-name">{{Auth::user()->name}} {{Auth::user()->last_name}}</a>
-      
+      <a href="{{url('player/perfil')}}" class="user-name">{{Auth::user()->name}} {{Auth::user()->last_name}}</a>
     </div>
     <a href="{{url('logout')}}" class="logout-button">Cerrar Sesión</a>
   </div>

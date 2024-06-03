@@ -102,6 +102,12 @@ function plantarme() {
 	}
 }
 
+
+function limpiarForm() {
+	const form = document.getElementById('profile-form');
+	form.reset();
+  }
+
 //Recarga la pagina cuando se presiona el botton
 function playagain() {
 	location.reload(true);

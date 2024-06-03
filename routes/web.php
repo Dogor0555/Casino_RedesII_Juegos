@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassController;
-
+use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\PuntajesController;
 
 use App\Http\Controllers\PlayerController;
@@ -78,6 +78,10 @@ Route::group(['middleware' => 'player'], function(){
 
     Route::get('player/menu', [PlayerController::class, 'showMenu']);
     Route::get('player/puntajes', [PuntajesController::class, 'showPuntaje']);
+    Route::get('player/perfil', [PerfilController::class, 'showPerfil']);
+    Route::post('/perfil/{id}/update', [PerfilController::class, 'update'])->name('perfil.update');
+
+
 });
 
 
