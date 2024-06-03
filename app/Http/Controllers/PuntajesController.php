@@ -9,44 +9,48 @@ use App\Models\PuntajesModel;
 class PuntajesController extends Controller
 {
     public function guardarPuntaje(Request $request)
-    {
-        $respuesta = [
-            "ESTATUS" => "",
-            "MENSAJE" => ""
-        ];
+{
+    $respuesta = [
+        "ESTATUS" => "",
+        "MENSAJE" => ""
+    ];
 
-        try {
-            // Obtener el usuario autenticado
-            $usuarioId = Auth::id();
+    try {
+        // Obtener el usuario autenticado
+        $usuarioId = Auth::id();
 
-            // Verificar si el usuario ya tiene un puntaje registrado
-            $puntajeUsuario = PuntajesModel::where('id_usuario', $usuarioId)->first();
+        // Incrementar el contador de juegos jugados
+        $usuario = Auth::user();
+        $usuario->games_played++;
+        $usuario->save();
 
-            if ($puntajeUsuario) {
-                // Si el usuario ya tiene un puntaje, actualizarlo
-                $puntajeUsuario->puntos_jugador += $request->puntos_jugador;
-                $puntajeUsuario->puntos_crupier += $request->puntos_crupier;
-                $puntajeUsuario->puntos_ganados += $request->puntos_ganados;
-                $puntajeUsuario->save();
-            } else {
-                // Si el usuario no tiene un puntaje, crear uno nuevo
-                $data = $request->all();
-                $data["id_usuario"] = $usuarioId;
-                PuntajesModel::create($data);
-            }
+        // Verificar si el usuario ya tiene un puntaje registrado
+        $puntajeUsuario = PuntajesModel::where('id_usuario', $usuarioId)->first();
 
-            $respuesta["ESTATUS"] = "SUCCESS";
-        } catch (\Throwable $th) {
-            $respuesta["ESTATUS"] = "FAIL";
-            $respuesta["MENSAJE"] = "OCURRIO UN ERROR AL GUARDAR EL PUNTAJE DEL JUGADOR";
-            $respuesta["ERROR"] = $th->getMessage();
+        if ($puntajeUsuario) {
+            // Si el usuario ya tiene un puntaje, actualizarlo
+            $puntajeUsuario->puntos_jugador += $request->puntos_jugador;
+            $puntajeUsuario->puntos_crupier += $request->puntos_crupier;
+            $puntajeUsuario->puntos_ganados += $request->puntos_ganados;
+            $puntajeUsuario->save();
+        } else {
+            // Si el usuario no tiene un puntaje, crear uno nuevo
+            $data = $request->all();
+            $data["id_usuario"] = $usuarioId;
+            PuntajesModel::create($data);
         }
 
-        return response()->json($respuesta);
+        $respuesta["ESTATUS"] = "SUCCESS";
+    } catch (\Throwable $th) {
+        $respuesta["ESTATUS"] = "FAIL";
+        $respuesta["MENSAJE"] = "OCURRIO UN ERROR AL GUARDAR EL PUNTAJE DEL JUGADOR";
+        $respuesta["ERROR"] = $th->getMessage();
     }
 
-    public function showPuntaje()
-{
+    return response()->json($respuesta);
+}
+
+    public function showPuntaje(){
     // Obtener los primeros 10 puntajes más altos
     $puntajes = PuntajesModel::with('usuario')
                 ->orderBy('puntos_ganados', 'desc')

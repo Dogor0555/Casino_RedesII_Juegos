@@ -13,7 +13,7 @@ else if(anchoDocumento <= 599)
 var ctx = canvas.getContext("2d");
 
 let pointsUser = 0;
-let pointsCrupier = 0;
+let pointsCasa = 0;
 let pointsWin = 0;
 
 // Clase carta
@@ -32,7 +32,7 @@ class carta {
 // Variables que vamos a usar
 var cartas = [];
 var cartasJugador = [];
-var cartasCrupier = [];
+var cartasCasa = [];
 var indiceCarta = 0;
 var palos = ["S", "H", "D", "C"];
 
@@ -152,7 +152,7 @@ function pedirCarta() {
     }
 }
 
-async function plantarme() {
+/*async function plantarme() {
     document.getElementById("pedir").disabled = true;
     document.getElementById("plantar").disabled = true;
     document.getElementById("reset").style.visibility = "visible";
@@ -208,6 +208,80 @@ async function plantarme() {
     var formData = new FormData();
     formData.append("puntos_ganados", pointsWin);
     formData.append("puntos_crupier", pointsCrupier);
+    formData.append("puntos_jugador", pointsUser);
+    formData.append("_token", $('#_token').val());
+
+    const response = await fetch(ruta, {
+        method: 'POST',
+        body: formData
+    });
+
+    // Manejar la respuesta (opcional)
+    const result = await response.json();
+    console.log(result);
+}*/
+
+async function plantarme() {
+    document.getElementById("pedir").disabled = true;
+    document.getElementById("plantar").disabled = true;
+    document.getElementById("reset").style.visibility = "visible";
+
+    let info = document.getElementById("info");
+    info.classList.remove("hidden"); // Show the info div
+
+    // Contamos e imprimimos los puntos del jugador
+    for (i in cartasJugador) {
+        pointsUser += cartasJugador[i].valor;
+    }
+
+    // Sacamos cartas de la Casa y contamos sus puntos
+    while (pointsCasa < 17) {
+        cartasCasa.push(cartas[indiceCarta]);
+        pointsCasa += cartas[indiceCarta].valor;
+        indiceCarta++;
+    }
+
+    // Puntos de la partida se ponen en info
+    info.innerHTML = "Puntuación jugador: " + pointsUser + "<br>Puntuación crupier: " + pointsCasa;
+
+    // Dibujamos las cartas del crupier
+    carta.x = 50;
+    carta.y = 400;
+    for (i in cartasCasa) {
+        dibujarCarta(cartasCasa[i]);
+    }
+
+    // Inicializamos puntosWin
+    pointsWin = 0;
+
+    // Comprobamos si hay empate
+    if (pointsUser == pointsCasa) {
+        info.innerHTML += "<br><b>Esto ha quedado en empate.</b>";
+    } else {
+        // Comprobamos ganador
+        if (pointsUser == 21) {
+            info.innerHTML += "<br><b> ¡BLACKJACK! GANAS 100 PUNTOS</b>";
+            pointsWin += 100; // Aumentar puntos si el jugador obtiene Blackjack
+        } else if (pointsUser > 21) {
+            info.innerHTML += "<br><b>Has ganado La Casa... Te has pasado de puntos</b>";
+           
+        } else if (pointsCasa > 21) {
+            info.innerHTML += "<br><b>Has ganado!!! La casa se ha pasado de puntos</b>";
+            pointsWin += 50; // Aumentar puntos si la casa se pasa de puntos
+        } else if (pointsCasa >= pointsUser) {
+            info.innerHTML += "<br><b>Ha ganado La Casa...</b>";
+          
+        } else {
+            info.innerHTML += "<br><b>Has ganado!!!</b>";
+            pointsWin += 50; // Aumentar puntos si el jugador gana
+        }
+    }
+
+    // Enviar datos al servidor
+    var ruta = $("#rutaGuardarPuntaje").val();
+    var formData = new FormData();
+    formData.append("puntos_ganados", pointsWin);
+    formData.append("puntos_crupier", pointsCasa);
     formData.append("puntos_jugador", pointsUser);
     formData.append("_token", $('#_token').val());
 

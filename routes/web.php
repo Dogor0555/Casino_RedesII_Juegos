@@ -63,6 +63,11 @@ Route::group (['middleware' => 'admin'], function(){
     Route::get('admin/class/edit/{id}', [ClassController::class,'edit']);
     Route::post('admin/class/edit/{id}', [ClassController::class,'update']);
     Route::get('admin/class/delete/{id}', [ClassController::class,'delete']);
+
+
+
+    Route::get('admin/menu', [AdminController::class, 'showMenu']);
+
 });
 
 
@@ -73,7 +78,7 @@ Route::group(['middleware' => 'teacher'], function(){
 
 Route::group(['middleware' => 'player'], function(){
     Route::get('player/game', [DashboardController::class,'dashboard']);
-
+    Route::get('player/game', [PlayerController::class, 'showGame']);
     Route::post('player/guardarPuntaje',[PuntajesController::class,"guardarPuntaje"])->name("guardarPuntaje")->middleware("auth");
 
     Route::get('player/menu', [PlayerController::class, 'showMenu']);

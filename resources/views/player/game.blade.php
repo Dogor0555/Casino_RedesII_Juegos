@@ -13,6 +13,7 @@
 
   <title>Black Jack</title>
 
+
 </head>
 
 <body>  
@@ -40,7 +41,7 @@
 </div>
 
 <div id="info" class="hidden"></div>
-
+<div id="infor"></div>
 
 
     <script src="{{url('public/plugins/jquery/jquery.min.js')}}"></script>
@@ -52,6 +53,40 @@
     <input type="hidden" value="{{csrf_token()}}" id="_token"/>
     <script type="text/javascript">
       let table = new DataTable('#tablaPuntajes');
+
+      var gamesPlayed = {{ $gamesPlayed }};
+        var maxGames = 5;
+
+        if (gamesPlayed >= maxGames) {
+            // Crear el mensaje
+    var limitMessage = document.createElement('div');
+    limitMessage.classList.add('limit-message');
+    limitMessage.textContent = '¡Ya has superado tu límite de intentos!';
+
+    // Obtener el contenedor donde se mostrará el mensaje
+    var limitMessageContainer = document.getElementById('infor');
+
+    // Insertar el mensaje dentro del contenedor
+    limitMessageContainer.appendChild(limitMessage);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+    // Obtener el número de intentos del usuario desde el servidor
+    var gamesPlayed = <?php echo Auth::user()->games_played; ?>;
+
+    // Obtener referencias a los botones relevantes
+    var pedirCartaButton = document.getElementById('pedir');
+    var jugarOtraVezButton = document.getElementById('reset');
+    var plantarButton = document.getElementById('plantar');
+
+    // Verificar si se alcanzó el límite de intentos y desactivar los botones si es necesario
+    if (gamesPlayed >= 5) {
+        pedirCartaButton.disabled = true;
+        jugarOtraVezButton.disabled = true;
+        plantarButton.disabled = true;
+    }
+});
+      
     </script>
  
 </body>

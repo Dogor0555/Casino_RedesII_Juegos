@@ -22,7 +22,7 @@ class AuthController extends Controller
          if(!empty(Auth::check())){
                 
            if(Auth::user()->user_type == 1){
-               return redirect('admin/dashboard');
+               return redirect('admin/menu');
             }
             else if(Auth::user()->user_type == 2){
                return redirect('teacher/dashboard');
@@ -51,7 +51,7 @@ class AuthController extends Controller
             $user = Auth::user();
 
             if(Auth::user()->user_type == 1){
-                return redirect('admin/dashboard')->with('welcomeMessage', '¡Bienvenido al sistema, ' . $user->name . '!');;
+                return redirect('admin/menu')->with('welcomeMessage', '¡Bienvenido al sistema, ' . $user->name . '!');;
              }
              else if(Auth::user()->user_type == 2){
                 return redirect('teacher/dashboard')->with('welcomeMessage', '¡Bienvenido al sistema, ' . $user->name . '!');;

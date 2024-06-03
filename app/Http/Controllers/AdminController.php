@@ -8,17 +8,24 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
+
+
+    public function showMenu()
+    {
+        return view('admin.menu');
+    }
+
     public function list(){
         $data['getRecord'] = User::getAdmin();
         $data["header_title" ] = "Admin List";
-        return view("admin.admin.list", $data);
+        return view("admin.menu", $data);
     }
 
 
     public function add(){
         
         $data["header_title" ] = "Add New Admin";
-        return view("admin.admin.add", $data);
+        return view("admin.players.add", $data);
     }
 
     public function insert(Request $request)
@@ -68,7 +75,7 @@ class AdminController extends Controller
         // **Guardar el nuevo usuario**
         $user->save();
     
-        return redirect("admin/admin/list")->with("welcomeMessage", "Administrador creado correctamente.");
+        return redirect("admin/players/list")->with("welcomeMessage", "Administrador creado correctamente.");
     }    
 
 
@@ -76,7 +83,7 @@ class AdminController extends Controller
         $data['getRecord'] = User::getSingle($id);
         if(!empty($data['getRecord'])){
             $data['header_title'] = "Edit Admin";
-            return view("admin.admin.edit", $data);
+            return view("admin.players.edit", $data);
         }else{
             abort(404);
         }
@@ -145,7 +152,7 @@ class AdminController extends Controller
         // Guardar el usuario actualizado
         $user->save();
     
-        return redirect("admin/admin/list")->with("welcomeMessage", "Administrador modificado correctamente.");
+        return redirect("admin/players/list")->with("welcomeMessage", "Administrador modificado correctamente.");
     }    
 
     public function delete($id){
@@ -153,7 +160,7 @@ class AdminController extends Controller
         $user->is_delete = 1;
         $user->save();
  
-        return redirect("admin/admin/list")->with("welcomeMessage","Administrador eliminado correctamente.");
+        return redirect("admin/players/list")->with("welcomeMessage","Administrador eliminado correctamente.");
 
      }
 
