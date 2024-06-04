@@ -1,5 +1,5 @@
 let anchoDocumento = $(document).width();
-// Montamos el canvas con alta resolución
+
 var canvas = document.getElementById("canvas");
 canvas.width = 1220 * 2;
 canvas.height = 400 * 2;
