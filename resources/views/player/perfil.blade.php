@@ -169,7 +169,7 @@
          
          
           <div class="buttons">
-            <button type="submit" class="save-changes">Save Changes</button>
+            <button type="submit" class="save-changes">Guardar cambios</button>
             <button type="button" class="cancel" onclick="limpiarForm()">Limpiar</button>
           </div>
       </form>
