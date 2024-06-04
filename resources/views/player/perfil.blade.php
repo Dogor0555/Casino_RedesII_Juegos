@@ -145,7 +145,7 @@
   <div class="container">
     <div class="profile-editor">
       <a href="{{ url('player/menu') }}" class="boton_regresar">&#10094;</a>
-      <h1 class="title">Profile Editor</h1>
+      <h1 class="title">Editar tu perfil</h1>
       <div class="profile-picture">
       <img src="{{url('public/user-profile/' . Auth::user()->user_photo)}}" alt="Profile Picture">
       </div>

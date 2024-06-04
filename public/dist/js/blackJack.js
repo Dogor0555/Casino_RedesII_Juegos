@@ -256,7 +256,7 @@ async function plantarme() {
 
     // Comprobamos si hay empate
     if (pointsUser == pointsCasa) {
-        info.innerHTML += "<br><b>Esto ha quedado en empate.</b>";
+        info.innerHTML += "<br><b>Has quedado en empate.</b>";
     } else {
         // Comprobamos ganador
         if (pointsUser == 21) {
