@@ -38,4 +38,11 @@ class PlayerController extends Controller
     // Retornar la respuesta adecuada al cliente
     return response()->json(['message' => 'Solicitud de juego procesada correctamente.']);
 }
+  
+
+
+
+
+
 }
+
