@@ -2,156 +2,99 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" href="{{url('public/images/LOGOCA.jpeg')}}" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="{{url('public/images/LOGOCA.jpeg')}}" type="image/x-icon">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>{{!empty($header_title) ? $header_title : ''}} - Casino Black Wing</title>
-  
+  <link rel="stylesheet" href="{{ asset('public/dist/css/style.css') }}">
   <link href="https://fonts.googleapis.com/css?family=Calisto+MT|Brush+Script+MT" rel="stylesheet">
-  <title>Black Jack - Puntajes</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <title>Black Jack</title>
   <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-image: linear-gradient(to bottom, #FFD700, #708090);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        color: #fff;
+    .attempts-info {
+      display: flex;
+      align-items: center;
+      color: #e2b04a; /* Same color as other elements */
     }
-    .container {
-        max-width: 768px;
-        width: 100%;
-        margin: 0 auto;
-        background-color: #1c1c1c;
-        box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-        border-radius: 12px;
-        overflow: hidden;
-        border: 2px solid #e2b04a;
-    }
-    .header {
-        display: flex;
-        font-size: 25px;
-        justify-content: space-between;
-        align-items: center;
-        padding: 16px;
-        background-color: #3f3f3f;
-        color: #e2b04a;
-        border-bottom: 2px solid #e2b04a;
-        font-weight: bold;
-    }
-    .header h2 {
-        margin: 0;
-        font-size: 24px;
-    }
-    .header img {
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    thead {
-        background-color: #e2b04a;
-        color: #000;
-    }
-    th, td {
-        padding: 12px;
-        text-align: left;
-    }
-    tbody tr:nth-child(odd) {
-        background-color: #333;
-    }
-    tbody tr:nth-child(even) {
-        background-color: #444;
-    }
-    tbody tr:hover {
-        background-color: #555;
-    }
-    .boton_regresar {
-        background-color: #e2b04a;
-        color: #fff;
-        text-decoration: none;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-        font-weight: bold;
-    }
-    .boton_regresar:hover {
-        background-color: #d4a03b;
-    }
-    .boton_regresar:active {
-        background-color: #b88632;
+    .attempts-info img {
+      width: 20px; /* Adjust the size as needed */
+      height: 20px;
+      margin-left: 5px; /* Space between text and image */
     }
   </style>
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <a href="{{ url('player/menu') }}" class="boton_regresar">Regresar</a>
-      <a class="user-name">{{ Auth::user()->name }} {{ Auth::user()->last_name }}</a>
-      <img src="{{ url('public/user-profile/' . Auth::user()->user_photo) }}" class="img-circle elevation-2 rounded-circle" alt="User Image">
-    </div>
-    <table id="tablaPuntajes">
-      <thead>
-        <tr>
-          <th>TOP</th>
-          <th>Usuario</th>
-          <th>Puntos ganados</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach ($puntajes as $index => $puntaje)
-          <tr>
-            <td>{{ $index + 1 }}</td>
-            <td>{{ $puntaje->usuario->name }} {{ $puntaje->usuario->last_name }}</td>
-            <td>{{ $puntaje->puntos_ganados }}</td>
-          </tr>
-        @endforeach
-      </tbody>
-    </table>
-  </div>
 
-  <script src="{{ url('public/plugins/jquery/jquery.min.js') }}"></script>
-  <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css" />
-  <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
-  <script type="text/javascript" src="{{ asset('public/dist/js/blackJack.js') }}"></script>
-  <input type="hidden" id="rutaimagescarta" value="{{ asset('public') }}">
-  <input type="hidden" value="{{ route('guardarPuntaje') }}" id="rutaGuardarPuntaje" />
-  <input type="hidden" value="{{ csrf_token() }}" id="_token" />
-  <script type="text/javascript">
-    let table = new DataTable('#tablaPuntajes', {
-      "order": [[2, "desc"]],
+<body>  
+    <nav class="navbar">
+        <div class="nav-button">
+          <a href="{{ url('player/menu') }}" class="boton_regresar">&#10094;</a>
+        </div>
+        <div class="logo-container">
+            <a alt="21 Black Jack" class="logo">21 - BLACKJACK</a>
+        </div>
+        <div class="attempts-info">
+            Intentos restantes: {{ 5 - Auth::user()->games_played }}
+            <img src="{{url('public/images/medalla-de-oro.png')}}" alt="Medalla de Oro">
+        </div>
+        <div class="user-info">
+            <img src="{{url('public/user-profile/' . Auth::user()->user_photo)}}" alt="User" class="user-avatar">
+            <span class="username">{{ Auth::user()->name }} {{ Auth::user()->last_name }}</span>
+        </div>
+    </nav>
 
+ <div id="canvasDiv"><canvas id="canvas"></canvas></div>
+<div class="botones">
+  <input type="button" value="Pedir Carta" onclick="pedirCarta()" id="pedir" class="action-button">
+  <input type="button" value="Jugar otra vez!" id="reset" onclick="playagain()" class="action-button">
+  <input type="button" value="Quedarme aquí" onclick="plantarme()" id="plantar" class="action-button">
+</div>
 
-      "language": {
-        "search": "Buscar:",
-        "lengthMenu": "Mostrar _MENU_ entradas por página",
-        "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
-        "infoEmpty": "Mostrando 0 a 0 de 0 entradas",
-        "infoFiltered": "(filtrado de _MAX_ entradas totales)",
-        "paginate": {
-          "first": "Primero",
-          "last": "Último",
-          "next": "Siguiente",
-          "previous": "Anterior"
-        },
-        "zeroRecords": "No se encontraron registros coincidentes",
-        "emptyTable": "No hay datos disponibles en la tabla",
-        "loadingRecords": "Cargando...",
-        "processing": "Procesando..."
-      }
+<div id="info" class="hidden"></div>
+<div id="infor"></div>
 
+    <script src="{{url('public/plugins/jquery/jquery.min.js')}}"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
+    <script type="text/javascript" src="{{ asset('public/dist/js/blackJack.js') }}"></script>
+    <input type="hidden" id="rutaimagescarta" value="{{ asset('public') }}">
+    <input type="hidden" value="{{route("guardarPuntaje")}}" id="rutaGuardarPuntaje"/>
+    <input type="hidden" value="{{csrf_token()}}" id="_token"/>
+    <script type="text/javascript">
+      let table = new DataTable('#tablaPuntajes');
 
+      var gamesPlayed = {{ $gamesPlayed }};
+        var maxGames = 5;
 
+        if (gamesPlayed >= maxGames) {
+            // Crear el mensaje
+            var limitMessage = document.createElement('div');
+            limitMessage.classList.add('limit-message');
+            limitMessage.textContent = '¡Ya has superado tu límite de intentos!';
 
-    });
-  </script>
+            // Obtener el contenedor donde se mostrará el mensaje
+            var limitMessageContainer = document.getElementById('infor');
+
+            // Insertar el mensaje dentro del contenedor
+            limitMessageContainer.appendChild(limitMessage);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obtener el número de intentos del usuario desde el servidor
+            var gamesPlayed = <?php echo Auth::user()->games_played; ?>;
+
+            // Obtener referencias a los botones relevantes
+            var pedirCartaButton = document.getElementById('pedir');
+            var jugarOtraVezButton = document.getElementById('reset');
+            var plantarButton = document.getElementById('plantar');
+
+            // Verificar si se alcanzó el límite de intentos y desactivar los botones si es necesario
+            if (gamesPlayed >= 5) {
+                pedirCartaButton.disabled = true;
+                jugarOtraVezButton.disabled = true;
+                plantarButton.disabled = true;
+            }
+        });
+    </script>
 </body>
 </html>
