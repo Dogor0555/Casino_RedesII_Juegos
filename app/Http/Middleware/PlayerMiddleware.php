@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PlayerMiddleware
 {
+  
     /**
      * Handle an incoming request.
      *
