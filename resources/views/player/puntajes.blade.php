@@ -94,7 +94,7 @@
 <body>
   <div class="container">
     <div class="header">
-      <a href="{{ url('player/menu') }}" class="boton_regresar">HOME</a>
+      <a href="{{ url('player/menu') }}" class="boton_regresar">Regresar</a>
       <a class="user-name">{{ Auth::user()->name }} {{ Auth::user()->last_name }}</a>
       <img src="{{ url('public/user-profile/' . Auth::user()->user_photo) }}" class="img-circle elevation-2 rounded-circle" alt="User Image">
     </div>
@@ -127,7 +127,30 @@
   <input type="hidden" value="{{ csrf_token() }}" id="_token" />
   <script type="text/javascript">
     let table = new DataTable('#tablaPuntajes', {
-      "order": [[2, "desc"]]
+      "order": [[2, "desc"]],
+
+
+      "language": {
+        "search": "Buscar:",
+        "lengthMenu": "Mostrar _MENU_ entradas por página",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+        "infoEmpty": "Mostrando 0 a 0 de 0 entradas",
+        "infoFiltered": "(filtrado de _MAX_ entradas totales)",
+        "paginate": {
+          "first": "Primero",
+          "last": "Último",
+          "next": "Siguiente",
+          "previous": "Anterior"
+        },
+        "zeroRecords": "No se encontraron registros coincidentes",
+        "emptyTable": "No hay datos disponibles en la tabla",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando..."
+      }
+
+
+
+
     });
   </script>
 </body>

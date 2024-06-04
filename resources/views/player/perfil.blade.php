@@ -119,26 +119,26 @@
     }
 
     .boton_regresar {
-  background-color: #e2b04a;
-  color: #fff;
-  text-decoration: none;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-  font-weight: bold;
-  font-family: 'Montserrat', sans-serif;
-}
+      background-color: #e2b04a;
+      color: #fff;
+      text-decoration: none;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      font-weight: bold;
+      font-family: 'Montserrat', sans-serif;
+    }
 
-.boton_regresar:hover {
-  background-color: #d4a03b;
-}
+    .boton_regresar:hover {
+      background-color: #d4a03b;
+    }
 
-.boton_regresar:active {
-  background-color: #b88632;
-}
+    .boton_regresar:active {
+      background-color: #b88632;
+    }
   </style>
 </head>
 <body>
@@ -147,36 +147,37 @@
       <a href="{{ url('player/menu') }}" class="boton_regresar">&#10094;</a>
       <h1 class="title">Editar tu perfil</h1>
       <div class="profile-picture">
-      <img src="{{url('public/user-profile/' . Auth::user()->user_photo)}}" alt="Profile Picture">
+        <img src="{{url('public/user-profile/' . Auth::user()->user_photo)}}" alt="Profile Picture">
       </div>
 
-
-      <form method="post" action="{{ route('perfil.update', Auth::user()->id) }}" enctype="multipart/form-data" id?="profile-form">
-          {{csrf_field()}}
-          <input type="file" name="user_photo">
-          
-          <input type="text" name="name" value="{{ Auth::user()->name }}" required placeholder="Introduzca el nombre">
-          
-          <input type="text" name="last_name" value="{{ Auth::user()->last_name }}" required placeholder="Introduzca los apellidos">
-          
-          <input type="email" name="email" value="{{ Auth::user()->email }}" required placeholder="Introduzca el correo">
-          
-          <input type="password" name="current_password" placeholder="Introduzca la contraseña actual">
-        
-          <input type="password" name="new_password" placeholder="Introduzca la nueva contraseña">
-          
-          <input type="password" name="new_password_confirmation" placeholder="Confirme la nueva contraseña">
-         
-         
-          <div class="buttons">
-            <button type="submit" class="save-changes">Guardar cambios</button>
-            <button type="button" class="cancel" onclick="limpiarForm()">Limpiar</button>
-          </div>
+      <form method="post" action="{{ route('perfil.update', Auth::user()->id) }}" enctype="multipart/form-data" id="profile-form">
+        {{csrf_field()}}
+        <input type="file" name="user_photo">
+        <input type="text" name="name" value="{{ Auth::user()->name }}" required placeholder="Introduzca el nombre">
+        <input type="text" name="last_name" value="{{ Auth::user()->last_name }}" required placeholder="Introduzca los apellidos">
+        <input type="email" name="email" value="{{ Auth::user()->email }}" required placeholder="Introduzca el correo">
+        <input type="password" name="current_password" placeholder="Introduzca la contraseña actual">
+        <input type="password" name="new_password" placeholder="Introduzca la nueva contraseña">
+        <input type="password" name="new_password_confirmation" placeholder="Confirme la nueva contraseña">
+        <div class="buttons">
+          <button type="submit" class="save-changes">Guardar cambios</button>
+          <button type="button" class="cancel" onclick="limpiarForm()">Limpiar</button>
+        </div>
       </form>
     </div>
   </div>
 
-  
-  
+  <script>
+    function limpiarForm() {
+      const form = document.getElementById('profile-form');
+      form.querySelector('input[name="user_photo"]').value = '';
+      form.querySelector('input[name="name"]').value = '';
+      form.querySelector('input[name="last_name"]').value = '';
+      form.querySelector('input[name="email"]').value = '';
+      form.querySelector('input[name="current_password"]').value = '';
+      form.querySelector('input[name="new_password"]').value = '';
+      form.querySelector('input[name="new_password_confirmation"]').value = '';
+    }
+  </script>
 </body>
 </html>

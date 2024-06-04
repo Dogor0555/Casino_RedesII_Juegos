@@ -25,9 +25,12 @@
          <div class="logo-container">
             <a alt="21 Black Jack" class="logo">21 - BLACKJACK</a>
         </div>
+        <div class="attempts-info">
+            Coins Restantes: {{ 5 - Auth::user()->games_played }}
+        </div>
         <div class="user-info">
-            <img src="{{url('public/user-profile/' . Auth::user()->user_photo)}}" alt="User" class="user-avatar">
-            <span class="username">{{Auth::user()->name}} {{Auth::user()->last_name}}</span>
+    <img src="{{url('public/user-profile/' . Auth::user()->user_photo)}}" alt="User" class="user-avatar">
+    <span class="username">{{ Auth::user()->name }} {{ Auth::user()->last_name }} </span>
         </div>
     </nav>
 
