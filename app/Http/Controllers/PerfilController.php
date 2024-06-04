@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\PuntajesModel;
 use Illuminate\Support\Facades\Storage;
 
 class PerfilController extends Controller
@@ -79,8 +80,9 @@ class PerfilController extends Controller
     public function showPerfil()
     {
        
-
-        // Pasar los puntajes a la vista
-        return view('player.perfil');
+        $user = Auth::user();
+        $puntaje = PuntajesModel::where('id_usuario', $user->id)->first();
+    
+        return view('player.perfil', compact('user', 'puntaje'));
     }
 }

@@ -85,7 +85,8 @@ Route::group(['middleware' => 'player'], function(){
     Route::get('player/puntajes', [PuntajesController::class, 'showPuntaje']);
     Route::get('player/perfil', [PerfilController::class, 'showPerfil']);
     Route::post('/perfil/{id}/update', [PerfilController::class, 'update'])->name('perfil.update');
-
+    
+    Route::get('/perfil', [PlayerController::class, 'showProfileEditor'])->name('perfil');
 
 });
 
