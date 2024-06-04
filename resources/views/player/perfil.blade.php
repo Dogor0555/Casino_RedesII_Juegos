@@ -62,6 +62,30 @@
       object-fit: cover;
     }
 
+    .puntaje {
+      text-align: center;
+      color: #FFD700;
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      animation: shine 2s infinite;
+    }
+
+    @keyframes shine {
+      0% {
+        text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
+        transform: scale(1);
+      }
+      50% {
+        text-shadow: 0 0 20px #FFD700, 0 0 30px #FFA500, 0 0 40px #FFA500;
+        transform: scale(1.1);
+      }
+      100% {
+        text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
+        transform: scale(1);
+      }
+    }
+
     input {
       width: calc(100% - 20px);
       padding: 12px;
@@ -149,6 +173,13 @@
       <div class="profile-picture">
         <img src="{{url('public/user-profile/' . Auth::user()->user_photo)}}" alt="Profile Picture">
       </div>
+      <div class="puntaje">
+        @if ($puntaje)
+          <p>SCORE: {{ $puntaje->puntos_ganados }}</p>
+        @else
+          <p>Aún no has jugado ninguna partida.</p>
+        @endif
+      </div>
 
       <form method="post" action="{{ route('perfil.update', Auth::user()->id) }}" enctype="multipart/form-data" id="profile-form">
         {{csrf_field()}}
@@ -159,6 +190,7 @@
         <input type="password" name="current_password" placeholder="Introduzca la contraseña actual">
         <input type="password" name="new_password" placeholder="Introduzca la nueva contraseña">
         <input type="password" name="new_password_confirmation" placeholder="Confirme la nueva contraseña">
+
         <div class="buttons">
           <button type="submit" class="save-changes">Guardar cambios</button>
           <button type="button" class="cancel" onclick="limpiarForm()">Limpiar</button>
@@ -166,7 +198,6 @@
       </form>
     </div>
   </div>
-
   <script>
     function limpiarForm() {
       const form = document.getElementById('profile-form');
@@ -179,5 +210,6 @@
       form.querySelector('input[name="new_password_confirmation"]').value = '';
     }
   </script>
+
 </body>
 </html>
