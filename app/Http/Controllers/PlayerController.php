@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ClassModel;
+use App\Models\PuntajesModel;
 use Illuminate\Support\Facades\Auth;
 
 class PlayerController extends Controller
@@ -15,8 +15,12 @@ class PlayerController extends Controller
 
     public function showGame()
     {
-        $gamesPlayed = Auth::user()->games_played;
-        return view('player.game', compact('gamesPlayed'));
+        $user = Auth::user();
+        $gamesPlayed = $user->games_played;
+        $puntaje = PuntajesModel::where('id_usuario', $user->id)->first();
+    
+        return view('player.game', compact('gamesPlayed', 'puntaje'));
+        
     }
 
 

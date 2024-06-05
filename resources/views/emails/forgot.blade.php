@@ -21,7 +21,7 @@
 
             <p style="font-size: 16px;">
                 Gracias,<br>
-                <p><strong>AEFI, Copyright &copy; <?php echo date("Y"); ?>.</p>
+                <p><strong>CASINO BLACK WIN, Copyright &copy; <?php echo date("Y"); ?>.</p>
             </p>
         </div>
     </div>

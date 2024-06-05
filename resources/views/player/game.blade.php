@@ -11,18 +11,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <title>Black Jack</title>
-  <style>
-    .attempts-info {
-      display: flex;
-      align-items: center;
-      color: #e2b04a; /* Same color as other elements */
-    }
-    .attempts-info img {
-      width: 20px; /* Adjust the size as needed */
-      height: 20px;
-      margin-left: 5px; /* Space between text and image */
-    }
-  </style>
+  
 </head>
 
 <body>  
@@ -38,6 +27,13 @@
          {{ 5 - Auth::user()->games_played }}
             
         </div>
+        <div class="puntaje">
+        @if ($puntaje)
+          <p>SCORE: {{ $puntaje->puntos_ganados }}</p>
+        @else
+          <p>Aún no has jugado ninguna partida.</p>
+        @endif
+      </div>
         <div class="user-info">
             <img src="{{url('public/user-profile/' . Auth::user()->user_photo)}}" alt="User" class="user-avatar">
             <span class="username">{{ Auth::user()->name }} {{ Auth::user()->last_name }}</span>
