@@ -12,7 +12,7 @@
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Montserrat', sans-serif;
       background-image: linear-gradient(to bottom, #FFD700, #708090);
       color: #1a1a1a;
       min-height: 100vh;
@@ -28,7 +28,15 @@
       font-size: 2rem;
       font-weight: bold;
       margin-bottom: 2rem;
-      color: #fbbf24;
+      font-family: 'Montserrat', sans-serif;
+      color: white; /* Cambiar color a gris */
+      opacity: 0;
+      animation: fadeIn 5s forwards;
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
     }
     .container {
       background: #ffffff;
@@ -52,14 +60,46 @@
     .header h2 {
       font-size: 1.25rem;
       font-weight: 600;
+      color: white;
+      font-family: 'Montserrat', sans-serif;
+      opacity: 0;
+      animation: fadeIn 1s forwards;
     }
-    .header button {
-      background: #fbbf24;
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+    .header button,
+    .action-buttons button {
       color: #ffffff;
       padding: 0.5rem 1rem;
       border-radius: 0.5rem;
       border: none;
       cursor: pointer;
+      transition: transform 0.3s ease-in-out;
+    }
+    .action-buttons .delete {
+      background: #ef4444;
+    }
+    .header button:hover,
+    .action-buttons button:hover {
+      transform: scale(1.1) translateY(-10%);
+    }
+    @keyframes waterEffect {
+      0% {
+        transform: scale(1) translateY(0);
+      }
+      50% {
+        transform: scale(1.15) translateY(-15%);
+      }
+      100% {
+        transform: scale(1) translateY(0);
+      }
+    }
+    .header button:hover,
+    .action-buttons button:hover {
+      animation: waterEffect 0.5s ease-in-out;
     }
     ul {
       list-style: none;
@@ -75,6 +115,7 @@
       padding: 0.5rem 0;
       border-bottom: 1px solid #d4d4d8;
       flex-wrap: wrap;
+      width: 100%;
     }
     .dark li {
       border-bottom: 1px solid #6b7280;
@@ -98,26 +139,46 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
+      margin-right: 1rem; /* Añadir margen a la derecha */
     }
-    .action-buttons button {
-      background: #fbbf24;
-      color: #ffffff;
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
+    .boton_regresar {
+      background-color: #e2b04a;
+      color: #fff;
+      text-decoration: none;
       border: none;
+      padding: 10px 20px;
+      font-size: 16px;
       cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      font-weight: bold;
+      font-family: 'Montserrat', sans-serif;
     }
-    .action-buttons .delete {
-      background: #ef4444;
+    .boton_regresar:hover {
+      background-color: #d4a03b;
+    }
+
+    .boton_regresar:active {
+      background-color: #b88632;
+    }
+    /* Estilos del botón Agregar Administrador */
+    .add-button {
+      background: #28a745; /* Color verde */
+    }
+
+    /* Estilos del botón Editar Administrador */
+    .edit-button {
+      background: #fbbf24; /* Color amarillo */
     }
   </style>
 </head>
 <body class="dark">
-  <h1>User Management</h1>
+  <h1>Usuarios Administradores</h1>
   <div class="container">
     <div class="header">
-      <h2>Lista de Administrado</h2>
-      <button onclick="window.location.href='{{ url('admin/players/add') }}'">Add Admin</button>
+    <a href="{{ url('admin/menu') }}" class="boton_regresar">&#10094;</a>
+      <h2>Lista de Administradores</h2>
+      <button class="add-button" onclick="window.location.href='{{ url('admin/players/add') }}'">Agregar Administrador</button>
     </div>
     <ul>
       @foreach($getRecord as $admin)
@@ -127,17 +188,18 @@
             <span>{{ $admin->name }} {{ $admin->last_name }}</span>
           </div>
           <div class="action-buttons">
-            <button onclick="window.location.href='{{ url('admin/players/edit/' . $admin->id) }}'">Edit</button>
+            <button class="edit-button" onclick="window.location.href='{{ url('admin/players/edit/' . $admin->id) }}'">Editar Administrador</button>
             <form action="{{ url('admin/players/delete/' . $admin->id) }}" method="POST" style="display:inline;">
               @csrf
               @method('DELETE')
-              <button type="submit" class="delete" onclick="return confirm('Are you sure you want to delete this admin?')">Delete</button>
-            </form>
-          </div>
+              <button type="submit" class="delete" onclick="return confirm('Are you sure you want to delete this admin?')">Eliminar Administrador</button>
+          </form>
+            </div>
         </li>
-      @endforeach
-    </ul>
-    {{ $getRecord->links() }}
-  </div>
-</body>
+        @endforeach
+          </ul>
+      {{ $getRecord->links() }}
+
+        </div>
+      </body>
 </html>
