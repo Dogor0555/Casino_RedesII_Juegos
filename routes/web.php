@@ -57,15 +57,10 @@ Route::group (['middleware' => 'admin'], function(){
     Route::get('admin/admin/delete/{id}', [AdminController::class,'delete']);
 
 
-    Route::get('admin/class/list', [ClassController::class,'list']);
-    Route::get('admin/class/add', [ClassController::class,'add']);
-    Route::post('admin/class/add', [ClassController::class,'insert']);
-    Route::get('admin/class/edit/{id}', [ClassController::class,'edit']);
-    Route::post('admin/class/edit/{id}', [ClassController::class,'update']);
-    Route::get('admin/class/delete/{id}', [ClassController::class,'delete']);
+    
 
 
-
+    Route::get('admin/admin/list', [AdminController::class,'list']);
     Route::get('admin/menu', [AdminController::class, 'showMenu']);
 
 });
