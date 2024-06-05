@@ -72,7 +72,7 @@
         </div>
         <div class="attempts-info">
         <img src="{{url('public/images/medalla-de-oro.png')}}" alt="Medalla de Oro">    
-         {{ 5 - Auth::user()->games_played }}
+         {{max(0, 4 - Auth::user()->games_played) }}
             
         </div>
         <div class="puntaje">

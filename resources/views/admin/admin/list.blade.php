@@ -226,7 +226,7 @@
           <form action="{{ url('admin/admin/list/' . $admin->id) }}" method="POST" style="display:inline;">
             @csrf
             @method('DELETE')
-            <button type="submit" class="delete" onclick="return confirm('Are you sure you want to delete this admin?')">Eliminar Administrador</button>
+            <button type="submit" class="delete" onclick="return confirm('¿Estas seguro que desea eliminar el administrador?')">Eliminar Administrador</button>
 			</form>
         </div>
       </li>

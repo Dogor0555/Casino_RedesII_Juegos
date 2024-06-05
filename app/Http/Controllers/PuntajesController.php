@@ -50,15 +50,18 @@ class PuntajesController extends Controller
     return response()->json($respuesta);
 }
 
-    public function showPuntaje(){
+  public function showPuntaje() {
     // Obtener los primeros 10 puntajes más altos
     $puntajes = PuntajesModel::with('usuario')
                 ->orderBy('puntos_ganados', 'desc')
                 ->take(10)
                 ->get();
 
-    // Pasar los puntajes a la vista
-    return view('player.puntajes', compact('puntajes'));
+    // Obtener el puntaje del usuario actual
+    $puntajeUsuario = PuntajesModel::where('id_usuario', Auth::id())->first();
+
+    // Pasar los puntajes y el puntaje del usuario a la vista
+    return view('player.puntajes', compact('puntajes', 'puntajeUsuario'));
 }
 
 }

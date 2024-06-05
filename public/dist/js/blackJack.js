@@ -237,13 +237,13 @@ async function plantarme() {
         if (pointsUser == 21) {
             info.innerHTML += "<br><b> ¡BLACKJACK! GANAS 100 PUNTOS</b>";
             pointsWin += 100; // Aumentar puntos si el jugador obtiene Blackjack
+        }else if (pointsCasa > 21) {
+            info.innerHTML += "<br><b>Has ganado!!! La casa se ha pasado de puntos</b>";
+            pointsWin += 50; // Aumentar puntos si la casa se pasa de puntos
         } else if (pointsUser > 21) {
             info.innerHTML += "<br><b>Ha ganado La Casa... Te has pasado de puntos</b>";
            
-        } else if (pointsCasa > 21) {
-            info.innerHTML += "<br><b>Has ganado!!! La casa se ha pasado de puntos</b>";
-            pointsWin += 50; // Aumentar puntos si la casa se pasa de puntos
-        } else if (pointsCasa >= pointsUser) {
+        }  else if (pointsCasa >= pointsUser) {
             info.innerHTML += "<br><b>Ha ganado La Casa...</b>";
           
         } else {

@@ -89,15 +89,40 @@
     .boton_regresar:active {
         background-color: #b88632;
     }
+    .user-score {
+  text-align: center;
+  color: #FFD700;
+  font-weight: bold;
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  0% {
+    text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
+    transform: scale(1);
+  }
+  50% {
+    text-shadow: 0 0 20px #FFD700, 0 0 30px #FFA500, 0 0 40px #FFA500;
+    transform: scale(1.1);
+  }
+  100% {
+    text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
+    transform: scale(1);
+  }
+}
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <a href="{{ url('player/menu') }}" class="boton_regresar">Regresar</a>
-      <a class="user-name">{{ Auth::user()->name }} {{ Auth::user()->last_name }}</a>
-      <img src="{{ url('public/user-profile/' . Auth::user()->user_photo) }}" class="img-circle elevation-2 rounded-circle" alt="User Image">
-    </div>
+  <div class="header">
+    <a href="{{ url('player/menu') }}" class="boton_regresar">Regresar</a>
+    <a class="user-name">{{ Auth::user()->name }} {{ Auth::user()->last_name }} (Tú)</a>
+    @if ($puntajeUsuario)
+        <span class="user-score">SCORE: {{ $puntajeUsuario->puntos_ganados }}</span>
+    @endif
+    <img src="{{ url('public/user-profile/' . Auth::user()->user_photo) }}" class="img-circle elevation-2 rounded-circle" alt="User Image">
+</div>
+
     <table id="tablaPuntajes">
       <thead>
         <tr>
