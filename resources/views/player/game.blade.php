@@ -87,7 +87,9 @@
             <span class="username">{{ Auth::user()->name }} {{ Auth::user()->last_name }}</span>
         </div>
     </nav>
-
+ 
+ 
+ <div id="as-message-container" class="hidden"></div>
  <div id="canvasDiv"><canvas id="canvas"></canvas></div>
 <div class="botones">
   <input type="button" value="Pedir Carta" onclick="pedirCarta()" id="pedir" class="action-button">

@@ -307,3 +307,44 @@ body {
     transform: scale(1);
   }
 }
+
+
+#as-message-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+#as-message-container p {
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+}
+
+#as-message-container input[type="number"] {
+  display: block;
+  margin: 10px auto;
+  padding: 5px;
+  font-size: 18px;
+  text-align: center;
+}
+
+#as-message-container button {
+  display: block;
+  margin: 0 auto;
+  padding: 5px 10px;
+  font-size: 18px;
+  background-color: #e2b04a;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
