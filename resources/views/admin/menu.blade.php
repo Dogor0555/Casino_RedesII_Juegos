@@ -22,15 +22,15 @@
   <div class="menu">
     
     <div class="menu-item">
-      <a href="{{url('admin/player/list')}}" class="nav-link @if(Request::segment(2) == 'player') active @endif">
+      <a href="{{url('admin/admin/list')}}" class="nav-link @if(Request::segment(2) == 'player') active @endif">
         <i class="nav-icon far fa-user"></i>
-        VE A JUGAR!!
+       Usuarios Administradores
       </a>
     </div>
     <div class="menu-item">
-    <a href="{{url('admin/admin/list')}}" class="nav-link @if(Request::segment(2) == 'player') active @endif">
+    <a href="{{url('admin/players/list')}}" class="nav-link @if(Request::segment(2) == 'player') active @endif">
         <i class="nav-icon far fa-user"></i>
-        Administrar usuarios
+        Administrar ugadores
       </a>
     </div>
   </div>
