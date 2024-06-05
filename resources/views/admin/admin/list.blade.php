@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -170,36 +171,70 @@
     .edit-button {
       background: #fbbf24; /* Color amarillo */
     }
+
+
+	/* Estilos de paginación */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .pagination li {
+      margin: 0 5px;
+      display: inline-block;
+    }
+    .pagination li a {
+      padding: 5px 10px;
+      
+      color: #fff;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+	  background-color: #e2b04a;
+    }
+    .pagination li a:hover {
+		background-color: #fbbf24;
+    }
+
+
+    .pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+
   </style>
 </head>
 <body class="dark">
   <h1>Usuarios Administradores</h1>
   <div class="container">
     <div class="header">
-    <a href="{{ url('admin/menu') }}" class="boton_regresar">&#10094;</a>
-      <h2>Lista de Administradores</h2>
-      <button class="add-button" onclick="window.location.href='{{ url('admin/players/add') }}'">Agregar Administrador</button>
+      <a href="{{ url('admin/menu') }}" class="boton_regresar">&#10094;</a>
+      
+      <button class="add-button" onclick="window.location.href='{{ url('admin/admin/add') }}'">Agregar Administrador</button>
     </div>
     <ul>
       @foreach($getRecord as $admin)
-        <li>
-          <div class="user-info">
-            <img src="{{ url('public/user-profile/' . $admin->user_photo) }}" alt="User Image">
-            <span>{{ $admin->name }} {{ $admin->last_name }}</span>
-          </div>
-          <div class="action-buttons">
-            <button class="edit-button" onclick="window.location.href='{{ url('admin/players/edit/' . $admin->id) }}'">Editar Administrador</button>
-            <form action="{{ url('admin/players/delete/' . $admin->id) }}" method="POST" style="display:inline;">
-              @csrf
-              @method('DELETE')
-              <button type="submit" class="delete" onclick="return confirm('Are you sure you want to delete this admin?')">Eliminar Administrador</button>
-          </form>
-            </div>
-        </li>
-        @endforeach
-          </ul>
-      {{ $getRecord->links() }}
-
+      <li>
+        <div class="user-info">
+          <img src="{{ url('public/user-profile/' . $admin->user_photo) }}" alt="User Image">
+          <span>{{ $admin->name }} {{ $admin->last_name }}</span>
         </div>
-      </body>
+        <div class="action-buttons">
+          <button class="edit-button" onclick="window.location.href='{{ url('admin/admin/edit/' . $admin->id) }}'">Editar Administrador</button>
+          <form action="{{ url('admin/admin/list/' . $admin->id) }}" method="POST" style="display:inline;">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="delete" onclick="return confirm('Are you sure you want to delete this admin?')">Eliminar Administrador</button>
+			</form>
+        </div>
+      </li>
+      @endforeach
+    </ul>
+	<div class="pagination-container">
+    {{ $getRecord->links() }}
+  </div>
+  </div>
+</body>
 </html>

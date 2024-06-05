@@ -8,10 +8,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\PuntajesController;
-
 use App\Http\Controllers\PlayerController;
-
-
+use App\Models\Jugador;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,17 +49,29 @@ Route::group (['middleware' => 'admin'], function(){
     Route::get('admin/dashboard', [DashboardController::class,'dashboard']);
     //Route::get('admin/players/list', [AdminController::class,'list']);
     Route::get('admin/admin/add', [AdminController::class,'add']);
-    Route::post('admin/admin/add', [AdminController::class,'insert']);
+    Route::post('admin/admin/add', [AdminController::class,'insert'])->name('admin.admin.add');
+
     Route::get('admin/admin/edit/{id}', [AdminController::class,'edit']);
     Route::post('admin/admin/edit/{id}', [AdminController::class,'update']);
     Route::get('admin/admin/delete/{id}', [AdminController::class,'delete']);
 
-
+ 
     
+    Route::delete('admin/admin/list/{id}', [AdminController::class, 'delete'])->name('admin.delete');
 
     
     Route::get('admin/admin/list', [AdminController::class,'list']);
     Route::get('admin/menu', [AdminController::class, 'showMenu']);
+
+    Route::get('admin/players/list', [JugadorController::class,'list']);
+    Route::get('admin/players/add', [JugadorController::class,'add']);
+    Route::post('admin/players/add', [JugadorController::class,'insert'])->name('admin.players.add');
+
+    Route::get('admin/players/edit/{id}', [JugadorController::class,'edit']);
+    Route::post('admin/players/edit/{id}', [JugadorController::class,'update']);
+    Route::get('admin/players/delete/{id}', [JugadorController::class,'delete']);
+
+    Route::delete('admin/players/list/{id}', [JugadorController::class, 'delete'])->name('players.delete');
 
 });
 
@@ -83,6 +93,8 @@ Route::group(['middleware' => 'player'], function(){
     
     Route::get('/perfil', [PlayerController::class, 'showProfileEditor'])->name('perfil');
     Route::get('/menu', [PlayerController::class, 'showProfileEditor'])->name('perfil');
+
+    
 
 });
 

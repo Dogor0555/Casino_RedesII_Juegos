@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -168,7 +168,7 @@
 <body>
   <div class="container">
     <div class="profile-editor">
-      <a href="{{ url('admin/admin/list') }}" class="boton_regresar">&#10094;</a>
+      <a href="{{ url('admin/players/list') }}" class="boton_regresar">&#10094;</a>
       <h1 class="title">Editar tu perfil</h1>
       <div class="profile-picture">
         <img src="{{url('public/user-profile/' . $getRecord->user_photo)}}" alt="Profile Picture">
@@ -181,6 +181,7 @@
         <input type="text" name="name" value="{{ $getRecord->name }}" required placeholder="Introduzca el nombre">
         <input type="text" name="last_name" value="{{ $getRecord->last_name }}" required placeholder="Introduzca los apellidos">
         <input type="email" name="email" value="{{ $getRecord->email }}" required placeholder="Introduzca el correo">
+        <input type="text" name="games_played" value="{{ $getRecord->games_played }}" required placeholder="Introduzca cuantos Coins lleva ocupados el jugador">
         <input type="password" name="current_password" value="{{ $getRecord->password }}" placeholder="Introduzca la contraseña actual">
         <input type="password" name="new_password" placeholder="Introduzca la nueva contraseña">
         <input type="password" name="new_password_confirmation" placeholder="Confirme la nueva contraseña">

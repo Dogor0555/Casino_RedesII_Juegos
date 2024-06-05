@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Jugador;
 use Illuminate\Support\Facades\Hash;
 
-class AdminController extends Controller
+class JugadorController extends Controller
 {
 
 
@@ -15,17 +15,27 @@ class AdminController extends Controller
         return view('admin.menu');
     }
 
-    public function list(){
-        $data['getRecord'] = User::getAdmin();
-        $data["header_title" ] = "Admin List";
-        return view("admin.admin.list", $data);
+    public function list(Request $request)
+    {
+        $search = $request->query('search');
+
+        $data['getRecord'] = Jugador::where('user_type', 3)
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('last_name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+            })
+            ->paginate(10);
+
+        $data["header_title"] = "Player List";
+        return view("admin.players.list", $data);
     }
 
 
     public function add(){
         
-        $data["header_title" ] = "Add New Admin";
-        return view("admin.admin.add", $data);
+        $data["header_title" ] = "Add New Player";
+        return view("admin.players.add", $data);
     }
 
     public function insert(Request $request)
@@ -36,20 +46,22 @@ class AdminController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|email',
             'password' => 'required|string|confirmed',
-            'user_photo' => 'nullable|file|image|max:2048'
+            'user_photo' => 'nullable|file|image|max:2048',
+            'games_played' => 'required|int'
         ]);
     
         // Verificar si el correo electrónico ya está registrado en la base de datos
-        if (User::where('email', $request->email)->exists()) {
+        if (Jugador::where('email', $request->email)->exists()) {
             return redirect()->back()->with("errorMessage", "El correo electrónico ya está registrado en el sistema. Por favor, utiliza otro correo electrónico.");
         }
     
-        $user = new User();
+        $user = new Jugador();
         $user->name = trim($request->name);
         $user->last_name = trim($request->last_name);
         $user->email = trim($request->email);
         $user->password = Hash::make($request->password);
-        $user->user_type = 1;
+        $user->games_played = trim($request->games_played);
+        $user->user_type = 3;
     
         // **Agregar la lógica para manejar la foto del usuario**
     
@@ -75,15 +87,15 @@ class AdminController extends Controller
         // **Guardar el nuevo usuario**
         $user->save();
     
-        return redirect("admin/admin/list")->with("welcomeMessage", "Administrador creado correctamente.");
+        return redirect("admin/players/list")->with("welcomeMessage", "Jugador creado correctamente.");
     }    
 
 
     public function edit($id){
-        $data['getRecord'] = User::getSingle($id);
+        $data['getRecord'] = Jugador::getSingle($id);
         if(!empty($data['getRecord'])){
             $data['header_title'] = "Edit Admin";
-            return view("admin.admin.edit", $data);
+            return view("admin.players.edit", $data);
         }else{
             abort(404);
         }
@@ -91,7 +103,7 @@ class AdminController extends Controller
    
     public function update($id, Request $request)
     {
-        $user = User::getSingle($id);
+        $user = Jugador::getSingle($id);
     
         if (empty($user)) {
             abort(404);
@@ -104,7 +116,7 @@ class AdminController extends Controller
         ]);
     
         // Verificación de la existencia del correo electrónico en la base de datos
-        $existingUser = User::where('email', $request->email)->first();
+        $existingUser = Jugador::where('email', $request->email)->first();
     
         if ($existingUser && $existingUser->id !== $user->id) {
             return redirect()->back()->with("errorMessage", "El correo electrónico ya está registrado en el sistema. Por favor, utiliza otro correo electrónico.");
@@ -113,10 +125,10 @@ class AdminController extends Controller
             $user->email = trim($request->email);
         }
     
-        // Actualización de campos de nombre, apellido
+        // Actualización de campos de nombre, apellido e Intentos que Lleva el jugador
         $user->name = trim($request->name);
         $user->last_name = trim($request->last_name);
-    
+        $user->games_played = trim($request->games_played);
         // Verificación de nueva contraseña
         if (!empty($request->new_password)) {
             if (Hash::check($request->current_password, $user->password)) {
@@ -152,15 +164,15 @@ class AdminController extends Controller
         // Guardar el usuario actualizado
         $user->save();
     
-        return redirect("admin/admin/list")->with("welcomeMessage", "Administrador modificado correctamente.");
+        return redirect("admin/players/list")->with("welcomeMessage", "Jugador modificado correctamente.");
     }    
 
     public function delete($id){
-        $user = User::getSingle($id);
+        $user = Jugador::getSingle($id);
         $user->is_delete = 1;
         $user->save();
  
-        return redirect("admin/admin/list")->with("welcomeMessage","Administrador eliminado correctamente.");
+        return redirect("admin/players/list")->with("welcomeMessage","Jugador eliminado correctamente.");
 
      }
 
