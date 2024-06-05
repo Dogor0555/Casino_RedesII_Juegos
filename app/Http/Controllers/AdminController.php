@@ -18,7 +18,7 @@ class AdminController extends Controller
     public function list(){
         $data['getRecord'] = User::getAdmin();
         $data["header_title" ] = "Admin List";
-        return view("admin.players.list", $data);
+        return view("admin.admin.list", $data);
     }
 
 
