@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\PuntajesController;
+use App\Http\Controllers\JugadorController;
 use App\Http\Controllers\PlayerController;
 use App\Models\Jugador;
 
