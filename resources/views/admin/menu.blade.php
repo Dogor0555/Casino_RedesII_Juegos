@@ -30,7 +30,7 @@
     <div class="menu-item">
     <a href="{{url('admin/players/list')}}" class="nav-link @if(Request::segment(2) == 'player') active @endif">
         <i class="nav-icon far fa-user"></i>
-        Administrar ugadores
+        Administrar Jugadores
       </a>
     </div>
   </div>

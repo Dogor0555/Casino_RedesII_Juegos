@@ -116,7 +116,7 @@
   <h1>User Management</h1>
   <div class="container">
     <div class="header">
-      <h2>Admin List</h2>
+      <h2>Lista de Administradores</h2>
       <button onclick="window.location.href='{{ url('admin/players/add') }}'">Add Admin</button>
     </div>
     <ul>
