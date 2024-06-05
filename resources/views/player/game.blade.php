@@ -11,7 +11,55 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <title>Black Jack</title>
+  <style>
+  .attempts-info {
+  display: flex;
+  align-items: center;
+  color: #e2b04a; /* Same color as other elements */
+}
+.attempts-info img {
+  width: 20px; /* Adjust the size as needed */
+  height: 20px;
+  margin-left: 5px; /* Space between text and image */
+}
+
+
+.limit-message {
+  background-color: #ffcccc; /* Color de fondo */
+  color: #ff0000; /* Color del texto */
+  border: 1px solid #ff0000; /* Borde rojo */
+  padding: 10px; /* Espaciado interno */
+  margin-top: 20px; /* Margen superior */
+  font-size: 16px; /* Tamaño de fuente */
+  text-align: center; /* Alineación del texto */
+  font-weight: bold; /* Negrita */
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+.puntaje {
+  text-align: center;
+  color: #FFD700;
   
+  
+  font-weight: bold;
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  0% {
+    text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
+    transform: scale(1);
+  }
+  50% {
+    text-shadow: 0 0 20px #FFD700, 0 0 30px #FFA500, 0 0 40px #FFA500;
+    transform: scale(1.1);
+  }
+  100% {
+    text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
+    transform: scale(1);
+  }
+}
+</style>
 </head>
 
 <body>  
