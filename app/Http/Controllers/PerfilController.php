@@ -54,7 +54,10 @@ class PerfilController extends Controller
         $currentDateTime = now()->format('YmdHis');
 
         // Construir el nombre de la imagen con la fecha y hora
-        $imageName = $user->name . '_' . $currentDateTime . '.' . $imageFile->getClientOriginalExtension();
+       // $imageName = $user->name . '_' . $currentDateTime . '.' . $imageFile->getClientOriginalExtension();
+        $extension = pathinfo($imageFile->getClientOriginalName(), PATHINFO_EXTENSION);
+        $imageName = $user->name . '_' . $currentDateTime . '.' . $extension;
+
 
         // Almacenar la imagen en el directorio 'public/user-profile'
         $imageFile->storeAs('user-profile', $imageName, 'public');
