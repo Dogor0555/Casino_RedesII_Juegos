@@ -51,13 +51,11 @@ a:active {
     box-shadow: 0.2vw 0.4vw 1vw rgba(0, 0, 0, 0.4);
     color: #EEFEFF;
     background-color: #FFD700;
-
 }
 
 .navbar {
     position: absolute;
     font-weight: bold;
- 
     top: 0;
     left: 0;
     right: 0;
@@ -94,7 +92,6 @@ a:active {
     transform: scale(1.1);
     color: #f5f5f5;
     background-color: #d9be0e;
-    
 }
 
 .logout-button {
@@ -106,6 +103,9 @@ a:active {
     border-radius: 0.375rem;
     cursor: pointer;
     transition: background-color 0.2s;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
 }
 
 .logout-button:hover {
@@ -114,31 +114,43 @@ a:active {
 
 @media screen and (max-width: 768px) {
     .menu {
-        font-size: 9vw; /* Tamaño de fuente más grande para pantallas más pequeñas */
+        font-size: 6vw; /* Tamaño de fuente más grande para pantallas más pequeñas */
         margin-top: 10vh; /* Margen superior más grande para pantallas más pequeñas */
     }
 
     .navbar {
-        font-size: 5vw 15vh; /* Tamaño de fuente más grande para pantallas más pequeñas */
-       
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile, .logout-button {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin-top: 1rem;
+        margin-left: 1rem;
     }
 
     .user-name {
-        background-color: none(238, 254, 255, 0.55);
-        padding: 0.23rem 2rem;
-        border-radius: 25rem
-        
+        background-color: rgba(238, 254, 255, 0.55);
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+        font-size: 4vw;
+        width: 70%;
+        text-align: center;
     }
 
     .logout-button {
-        background-color: #f56565;
-        color: white;
-        font-weight: bold;
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 25rem;
-        cursor: pointer;
-        transition: background-color 0.2s;
+        order: 2;
+        margin-top: right; /* Ajuste la posición del botón de cerrar sesión */
+        margin-left: auto;
+        font-size: 4vw;
+        width: 30%;
+
     }
-    
+
+    a {
+        width: 100%;
+        text-align: center;
+    }
 }

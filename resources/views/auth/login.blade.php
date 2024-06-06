@@ -14,7 +14,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ url ('public/dist/css/adminlte.min.css')}}">
   <style>
-    body{
+    body {
       background-image: url('{{ url("public/images/FONDOcA.jpeg") }}'); /* Añade la imagen de fondo */
       background-size: cover; /* Ajusta el tamaño de la imagen de fondo */
       background-position: center; /* Centra la imagen de fondo */
@@ -30,16 +30,36 @@
       border: 1px solid rgba(209, 213, 219, 0.3);
     }
 
+    .login-box .card-body {
+      
+      flex-direction: column;
+      
+    }
+
+    .login-box .input-group {
+      width: 100%;
+    }
+
+    .login-box .row {
+      width: 100%;
+    }
+
+    .login-box .row .col-6 {
+      padding: 0;
+    }
+
+    .login-box .row .col-6 a {
+      display: block;
+      text-align: right;
+      white-space: nowrap;
+      width: 100%;
+    }
+
     @media (max-width: 768px) {
       body {
         background-size: auto; /* Cambia el tamaño de la imagen de fondo a automático */
-        
       }
     }
-
-
-
-
   </style>
 </head>
 <body class="hold-transition login-page">
@@ -73,7 +93,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-6">
+          <div class="col-6 text-left">
             <div class="icheck-primary">
               <input type="checkbox" id="remember" name="remember">
               <label for="remember">
@@ -82,31 +102,20 @@
             </div>
           </div>
           <!-- /.col -->
-          <div class="col-6">
-          <button type="submit" class="btn btn-primary btn-block" style="background-color: black; color: white;">Iniciar</button>
+          <div class="col-6 text-right">
+            <button type="submit" class="btn btn-primary" style="background-color: black; color: white;">Iniciar</button>
           </div>
-
           <!-- /.col -->
         </div>
       </form>
 
-      <!--<div class="social-auth-links text-center mt-2 mb-3">
-        <a href="#" class="btn btn-block btn-primary">
-          <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-        </a>
-        <a href="#" class="btn btn-block btn-danger">
-          <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-        </a>
-      </div> -->
-      <!-- /.social-auth-links -->
-
       <div class="row pt-2">
-          <p class="col-9">
+          <div class="col-6 text-left">
             <a href="{{url('forgot-password')}}">Olvidé mi contraseña</a>
-          </p> 
-          <p class="col-3">
+          </div> 
+          <div class="col-6 text-right">
             <a href="{{ url('signup') }}">Registrate</a>
-          </p>
+          </div>
       </div>
      
     </div>
