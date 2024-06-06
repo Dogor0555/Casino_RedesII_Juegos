@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +5,7 @@
   <link rel="icon" href="{{url('public/images/LOGOCA.jpeg')}}" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>{{!empty($header_title) ? $header_title : ''}} - Casino Black Wing</title>
+  <title>{{empty($header_title) ? $header_title : ''}} - Casino Black Wing</title>
   <link rel="stylesheet" href="{{ asset('public/dist/css/menu.css') }}">
   <link href="https://fonts.googleapis.com/css?family=Calisto+MT|Brush+Script+MT" rel="stylesheet">
   <title>Black Jack - ADMIN</title>
@@ -30,7 +29,7 @@
       font-weight: bold;
       margin-bottom: 2rem;
       font-family: 'Montserrat', sans-serif;
-      color: white; /* Cambiar color a gris */
+      color: white;
       opacity: 0;
       animation: fadeIn 5s forwards;
     }
@@ -140,7 +139,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      margin-right: 1rem; /* Añadir margen a la derecha */
+      margin-right: 1rem;
     }
     .boton_regresar {
       background-color: #e2b04a;
@@ -162,18 +161,14 @@
     .boton_regresar:active {
       background-color: #b88632;
     }
-    /* Estilos del botón Agregar Administrador */
     .add-button {
-      background: #28a745; /* Color verde */
+      background: #28a745;
     }
 
-    /* Estilos del botón Editar Administrador */
     .edit-button {
-      background: #fbbf24; /* Color amarillo */
+      background: #fbbf24;
     }
 
-
-	/* Estilos de paginación */
     .pagination {
       display: flex;
       justify-content: center;
@@ -185,25 +180,65 @@
     }
     .pagination li a {
       padding: 5px 10px;
-      
       color: #fff;
       border-radius: 5px;
       text-decoration: none;
       transition: background-color 0.3s;
-	  background-color: #e2b04a;
+      background-color: #e2b04a;
     }
     .pagination li a:hover {
-		background-color: #fbbf24;
+      background-color: #fbbf24;
     }
 
-
     .pagination-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-}
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
 
+    /* Estilos de la ventana modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
 
+    .modal-content {
+      background-color: Green;
+      margin: 8% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      color: white;
+      font-weight: bold;
+    }
+
+    .modal button {
+      background-color: #fbbf24;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .modal button:hover {
+      background-color: #e2b04a;
+    }
+
+    .modal button:active {
+      background-color: #d4a03b;
+    }
   </style>
 </head>
 <body class="dark">
@@ -211,7 +246,6 @@
   <div class="container">
     <div class="header">
       <a href="{{ url('admin/menu') }}" class="boton_regresar">&#10094;</a>
-      
       <button class="add-button" onclick="window.location.href='{{ url('admin/admin/add') }}'">Agregar Administrador</button>
     </div>
     <ul>
@@ -223,18 +257,51 @@
         </div>
         <div class="action-buttons">
           <button class="edit-button" onclick="window.location.href='{{ url('admin/admin/edit/' . $admin->id) }}'">Editar Administrador</button>
-          <form action="{{ url('admin/admin/list/' . $admin->id) }}" method="POST" style="display:inline;">
+          <form id="deleteForm_{{ $admin->id }}" action="{{ url('admin/admin/list/' . $admin->id) }}" method="POST" style="display:inline;">
             @csrf
             @method('DELETE')
-            <button type="submit" class="delete" onclick="return confirm('¿Estas seguro que desea eliminar el administrador?')">Eliminar Administrador</button>
-			</form>
+          </form>
+          <button type="button" class="delete" onclick="showModal({{ $admin->id }})">Eliminar Administrador</button>
         </div>
       </li>
       @endforeach
     </ul>
-	<div class="pagination-container">
-    {{ $getRecord->links() }}
+    <div class="pagination-container">
+      {{ $getRecord->links() }}
+    </div>
   </div>
+
+  <!-- Ventana modal -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <p>¿Estás seguro que deseas eliminar el administrador?</p>
+      <div style="text-align: center; margin-top: 20px;">
+        <button id="confirmDelete">OK</button>
+        <button id="cancelDelete">Cancelar</button>
+      </div>
+    </div>
   </div>
+
+  <script>
+    // Obtener el modal
+    var modal = document.getElementById("myModal");
+
+    // Obtener los botones del modal
+    var confirmDeleteBtn = document.getElementById("confirmDelete");
+    var cancelDeleteBtn = document.getElementById("cancelDelete");
+
+    function showModal(adminId) {
+      modal.style.display = "block";
+
+      confirmDeleteBtn.addEventListener("click", function() {
+        // Enviar el formulario de eliminación
+        document.getElementById("deleteForm_" + adminId).submit();
+      });
+
+      cancelDeleteBtn.addEventListener("click", function() {
+        modal.style.display = "none";
+      });
+    }
+  </script>
 </body>
 </html>
