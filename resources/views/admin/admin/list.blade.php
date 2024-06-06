@@ -5,7 +5,7 @@
   <link rel="icon" href="{{url('public/images/LOGOCA.jpeg')}}" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>{{empty($header_title) ? $header_title : ''}} - Casino Black Wing</title>
+  <title>{{!empty($header_title) ? $header_title : ''}} - Casino Black Wing</title>
   <link rel="stylesheet" href="{{ asset('public/dist/css/menu.css') }}">
   <link href="https://fonts.googleapis.com/css?family=Calisto+MT|Brush+Script+MT" rel="stylesheet">
   <title>Black Jack - ADMIN</title>
