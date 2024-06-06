@@ -207,7 +207,7 @@ async function plantarme() {
     document.getElementById("reset").style.visibility = "visible";
 
     let info = document.getElementById("info");
-    info.classList.remove("hidden"); // Show the info div
+    info.classList.remove("hidden");
 
     // Contamos e imprimimos los puntos del jugador
     for (let i in cartasJugador) {
@@ -220,7 +220,7 @@ async function plantarme() {
         if (currentCard.valor === 1) {
             // Si la carta es un As, asignar el valor 11
             pointsCasa += 11;
-        } else if (currentCard.valor >= 10) {
+        } else if (currentCard.valor >= 11 && currentCard.valor <= 13) {
             // Si la carta es J, Q o K, añadimos 10 puntos a la puntuación de la Casa
             pointsCasa += 10;
         } else {
