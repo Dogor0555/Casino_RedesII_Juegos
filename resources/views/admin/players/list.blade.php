@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -202,30 +201,46 @@
      margin-top: 1rem;
     }
 
-    .search-container{
-      background-color: #f5f5f5;
-      padding: 0.5rem;
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 100%;
-      border: 4px solid #fbbf24;
-      overflow-x: auto;
+    .search-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    
+    .search-input {
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .search-button {
+      padding: 0.5rem 1rem;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .search-button:hover {
+      background-color: #218838;
+    }
 
   </style>
 </head>
 <body class="dark">
 <h1>Usuarios Jugadores</h1>
   <div class="container">
-    
     <div class="header">
       <a href="{{ url('admin/menu') }}" class="boton_regresar">&#10094;</a>
-      <button class="add-button" onclick="window.location.href='{{ url('admin/players/add') }}'">Agregar Jugador</button>
+      <div class="search-container">
+        <input type="text" class="search-input" id="search-input" placeholder="Buscar jugador...">
+        <button class="add-button" onclick="window.location.href='{{ url('admin/players/add') }}'">Agregar Jugador</button>
+      </div>
     </div>
-    <ul>
+    <ul id="player-list">
       @foreach ($getRecord as $user)
       <li>
         <div class="user-info">
@@ -247,5 +262,22 @@
       {{ $getRecord->links() }}
     </div>
   </div>
+
+  <script>
+    document.getElementById('search-input').addEventListener('input', function() {
+      let query = this.value.toLowerCase();
+      let playerList = document.getElementById('player-list');
+      let players = playerList.getElementsByTagName('li');
+
+      Array.from(players).forEach(function(player) {
+        let playerName = player.querySelector('.user-info span').textContent.toLowerCase();
+        if (playerName.includes(query)) {
+          player.style.display = '';
+        } else {
+          player.style.display = 'none';
+        }
+      });
+    });
+  </script>
 </body>
 </html>
