@@ -215,17 +215,20 @@ async function plantarme() {
     }
 
     // Sacamos cartas de la Casa y contamos sus puntos
-while (pointsCasa < 17) {
-    let currentCard = cartas[indiceCarta];
-    if (currentCard.valor >= 11 && currentCard.valor <= 13) {
-        // Si la carta es J, Q o K, añadimos 10 puntos a la puntuación de la Casa
-        pointsCasa += 10 * (currentCard.valor - 10); // Multiplicamos por la cantidad de veces que aparece
-    } else {
-        pointsCasa += currentCard.valor;
+    while (pointsCasa < 17) {
+        let currentCard = cartas[indiceCarta];
+        if (currentCard.valor === 1) {
+            // Si la carta es un As, asignar el valor 11
+            pointsCasa += 11;
+        } else if (currentCard.valor >= 10) {
+            // Si la carta es J, Q o K, añadimos 10 puntos a la puntuación de la Casa
+            pointsCasa += 10;
+        } else {
+            pointsCasa += currentCard.valor;
+        }
+        cartasCasa.push(currentCard);
+        indiceCarta++;
     }
-    cartasCasa.push(currentCard);
-    indiceCarta++;
-}
 
     // Puntos de la partida se ponen en info
     info.innerHTML = "Puntuación jugador: " + pointsUser + "<br>Puntuación de la Casa: " + pointsCasa;
@@ -239,27 +242,27 @@ while (pointsCasa < 17) {
 
     // Inicializamos puntosWin
     pointsWin = 0;
-// Comprobamos si hay empate
-if (pointsUser === pointsCasa) {
-info.innerHTML += "<br><b>Has quedado en empate.</b>";
-// Comprobamos ganador
-
-}if (pointsUser > 21 && pointsCasa > 21){
-    info.innerHTML += "<br><b>Ambos se pasaron de 21 puntos. No hay ganador.</b>";
-} else if (pointsUser === 21) {
-    info.innerHTML += "<br><b> ¡BLACKJACK! GANAS 100 PUNTOS</b>";
-    pointsWin += 100; // Aumentar puntos si el jugador obtiene Blackjack
-} else if (pointsUser <= 21 && pointsCasa > 21) {
-    info.innerHTML += "<br><b>Has ganado!!! La casa se ha pasado de puntos</b>";
-    pointsWin += 50; // Aumentar puntos si la casa se pasa de puntos
-} else if (pointsUser <= 21 && (pointsCasa <= 21 && pointsUser > pointsCasa)) {
-    info.innerHTML += "<br><b>Has ganado!!!</b>";
-    pointsWin += 50; // Aumentar puntos si el jugador gana
-} else if (pointsCasa <= 21 && pointsCasa > pointsUser) {
-    info.innerHTML += "<br><b>Ha ganado La Casa...</b>";
-} else {
-    info.innerHTML += "<br><b>Ha ganado La Casa... Te has pasado de puntos</b>";
-}
+    // Comprobamos si hay empate
+    if (pointsUser === pointsCasa) {
+        info.innerHTML += "<br><b>Has quedado en empate.</b>";
+    }
+    // Comprobamos ganador
+    else if (pointsUser > 21 && pointsCasa > 21) {
+        info.innerHTML += "<br><b>Ambos se pasaron de 21 puntos. No hay ganador.</b>";
+    } else if (pointsUser === 21) {
+        info.innerHTML += "<br><b> ¡BLACKJACK! GANAS 100 PUNTOS</b>";
+        pointsWin += 100; // Aumentar puntos si el jugador obtiene Blackjack
+    } else if (pointsUser <= 21 && pointsCasa > 21) {
+        info.innerHTML += "<br><b>Has ganado!!! La casa se ha pasado de puntos</b>";
+        pointsWin += 50; // Aumentar puntos si la casa se pasa de puntos
+    } else if (pointsUser <= 21 && (pointsCasa <= 21 && pointsUser > pointsCasa)) {
+        info.innerHTML += "<br><b>Has ganado!!!</b>";
+        pointsWin += 50; // Aumentar puntos si el jugador gana
+    } else if (pointsCasa <= 21 && pointsCasa > pointsUser) {
+        info.innerHTML += "<br><b>Ha ganado La Casa...</b>";
+    } else {
+        info.innerHTML += "<br><b>Ha ganado La Casa... Te has pasado de puntos</b>";
+    }
 
     // Enviar datos al servidor
     var ruta = $("#rutaGuardarPuntaje").val();
