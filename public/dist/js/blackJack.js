@@ -24,8 +24,17 @@ class carta {
 
     constructor(valor, palo) {
         this.img = new Image();
-        this.valor = valor;
         this.palo = palo;
+        
+        // Asignar valor 10 a J, Q, K
+        if (valor >= 11 && valor <= 13) {
+            this.valor = 10;
+        } else {
+            this.valor = valor;
+        }
+
+        // Guardar el valor original para nombrar la imagen correctamente
+        this.valorOriginal = valor;
     }
 }
 
@@ -37,17 +46,18 @@ var indiceCarta = 0;
 var palos = ["S", "H", "D", "C"];
 
 // Generamos las cartas. Con atributos valor y palo
-for (i = 0; i < 4; i++) {
-    for (j = 1; j <= 11; j++) {
+for (let i = 0; i < 4; i++) {
+    for (let j = 1; j <= 13; j++) {
         cartas.push(new carta(j, palos[i]));
     }
 }
 
 // Barajamos las cartas
-for (i = 0; i < 100; i++) {
-    cartas.splice(Math.random() * 52, 0, cartas[0]);
-    cartas.shift();
+for (let i = 0; i < 100; i++) {
+    let randIndex = Math.floor(Math.random() * cartas.length);
+    cartas.push(cartas.splice(randIndex, 1)[0]);
 }
+
 function obtenerAnchoDeCarta(){
     if(anchoDocumento > 1050)
         return 239;
@@ -90,8 +100,6 @@ function validarUbicacionCarta(){
             carta.y = 430;
             if(indiceCarta == 4){
                 carta.x = 50;
-                //console.log(canvas.style.height);
-                //canvas.style.height = "800px";
             }   
         }
     }
@@ -102,7 +110,6 @@ function validarUbicacionCarta(){
                 carta.x = 50;
             }  
         }else if(indiceCarta >= 6){
-            
             carta.y = 550;
             if(indiceCarta == 6){
                 carta.x = 50;
@@ -115,7 +122,7 @@ function validarUbicacionCarta(){
             if(indiceCarta == 2){
                 carta.x = 50;
             }  
-        }else if(indiceCarta >= 4 &&  indiceCarta < 6){
+        }else if(indiceCarta >= 4 && indiceCarta < 6){
             carta.y = 400;
             if(indiceCarta == 4){
                 carta.x = 50;
@@ -128,6 +135,7 @@ function validarUbicacionCarta(){
         }
     }
 }
+
 function dibujarCarta(CJ) {
     // Tenemos que primero cargar la carta y luego añadir el src
     // Si no las cartas no cargan en la pagina
@@ -137,11 +145,10 @@ function dibujarCarta(CJ) {
         carta.x += obtenerSumatoriaEspacio();
     };
     
-    // Para cargar la imagen correcta concatenamos el numero y el palo, que coincida con el nombre del fichero
+    // Para cargar la imagen correcta concatenamos el valor original y el palo, que coincida con el nombre del fichero
     var rutaImagen = $("#rutaimagescarta").val();
-    CJ.img.src = rutaImagen + "/images/cartas/" + CJ.valor.toString() + CJ.palo + ".svg";
+    CJ.img.src = rutaImagen + "/images/cartas/" + CJ.valorOriginal.toString() + CJ.palo + ".svg";
 }
-
 
 function elegirValorAs() {
     return new Promise((resolve, reject) => {
@@ -177,9 +184,7 @@ function elegirValorAs() {
         }
       });
     });
-  }
-
-
+}
 
 async function pedirCarta() {
     if (indiceCarta < 8) {
@@ -205,7 +210,7 @@ async function plantarme() {
     info.classList.remove("hidden"); // Show the info div
 
     // Contamos e imprimimos los puntos del jugador
-    for (i in cartasJugador) {
+    for (let i in cartasJugador) {
         pointsUser += cartasJugador[i].valor;
     }
 
@@ -222,7 +227,7 @@ async function plantarme() {
     // Dibujamos las cartas de la casa
     carta.x = 50;
     carta.y = 400;
-    for (i in cartasCasa) {
+    for (let i in cartasCasa) {
         dibujarCarta(cartasCasa[i]);
     }
 
@@ -237,15 +242,13 @@ async function plantarme() {
         if (pointsUser == 21) {
             info.innerHTML += "<br><b> ¡BLACKJACK! GANAS 100 PUNTOS</b>";
             pointsWin += 100; // Aumentar puntos si el jugador obtiene Blackjack
-        }else if (pointsCasa > 21) {
+        }else if (pointsCasa > 21 && pointsUser < 21) {
             info.innerHTML += "<br><b>Has ganado!!! La casa se ha pasado de puntos</b>";
             pointsWin += 50; // Aumentar puntos si la casa se pasa de puntos
-        } else if (pointsUser > 21) {
+        } else if (pointsUser > 21 && pointsCasa < 21) {
             info.innerHTML += "<br><b>Ha ganado La Casa... Te has pasado de puntos</b>";
-           
-        }  else if (pointsCasa >= pointsUser) {
+        } else if (pointsCasa >= pointsUser) {
             info.innerHTML += "<br><b>Ha ganado La Casa...</b>";
-          
         } else {
             info.innerHTML += "<br><b>Has ganado!!!</b>";
             pointsWin += 50; // Aumentar puntos si el jugador gana
@@ -270,9 +273,7 @@ async function plantarme() {
     console.log(result);
 }
 
-
 // Recarga la pagina cuando se presiona el botón
 function playagain() {
     location.reload(true);
 }
-

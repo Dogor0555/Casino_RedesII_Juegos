@@ -12,48 +12,48 @@
  
  <style>
   .modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-}
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
 
-.modal-content {
-  background-color: Green;
-  margin: 8% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 300px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  color: white; /* Color de las letras */
-  font-weight: bold; /* Negrita */
-}
+  .modal-content {
+    background-color: Green;
+    margin: 8% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: white; /* Color de las letras */
+    font-weight: bold; /* Negrita */
+  }
 
-.modal button {
-  background-color: #fbbf24;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-}
+  .modal button {
+    background-color: #fbbf24;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+  }
 
-.modal button:hover {
-  background-color: #e2b04a;
-}
+  .modal button:hover {
+    background-color: #e2b04a;
+  }
 
-.modal button:active {
-  background-color: #d4a03b;
-}
-</style>
+  .modal button:active {
+    background-color: #d4a03b;
+  }
+ </style>
 </head>
 <body>
   <div class="navbar">
@@ -82,8 +82,8 @@
   <!-- Ventana modal -->
   <div id="myModal" class="modal">
     <div class="modal-content">
-      <p>Usarás 1 de tus 5 intentos disponibles para jugar.</p>
-      <button onclick="closeModal()">OK</button>
+      <p id="modalMessage"></p>
+      <button id="modalButton" onclick="handleModalAction()">OK</button>
     </div>
   </div>
 
@@ -91,23 +91,44 @@
     function openModal() {
       // Obtener el número de intentos del usuario
       var gamesPlayed = {{ Auth::user()->games_played }};
+      var maxGames = 5;
+      var remainingAttempts = maxGames - gamesPlayed;
 
-      // Verificar si el usuario ha alcanzado el límite de intentos
-      if (gamesPlayed < 5) {
-        // Mostrar la ventana modal
-        document.getElementById('myModal').style.display = "block";
+      var modalMessage = '';
+      if (remainingAttempts > 0) {
+        // Mostrar mensaje de intentos restantes
+        modalMessage = 'Usarás 1 de tus ' + remainingAttempts + ' intentos disponibles para jugar.';
+        document.getElementById('modalButton').onclick = function() {
+          closeModal(true);
+        };
       } else {
-        // Si ha alcanzado el límite, redirigir al usuario directamente al juego
+        // Mostrar mensaje de que no tiene más intentos
+        modalMessage = 'Ya no tienes intentos disponibles para seguir jugando.';
+        document.getElementById('modalButton').onclick = function() {
+          closeModal(false);
+        };
+      }
+
+      document.getElementById('modalMessage').innerText = modalMessage;
+      document.getElementById('myModal').style.display = "block";
+    }
+
+    function closeModal(canPlay) {
+      document.getElementById('myModal').style.display = "none";
+      if (canPlay) {
+        // Redirigir al usuario al juego si tiene intentos
         window.location.href = "{{url('player/game')}}";
       }
     }
 
-    function closeModal() {
-      // Cerrar la ventana modal
-      document.getElementById('myModal').style.display = "none";
-      
-      // Redirigir al usuario al juego
-      window.location.href = "{{url('player/game')}}";
+    function handleModalAction() {
+      var gamesPlayed = {{ Auth::user()->games_played }};
+      var maxGames = 5;
+      var remainingAttempts = maxGames - gamesPlayed;
+      if (remainingAttempts > 0) {
+        // Redirigir al usuario al juego si tiene intentos
+        window.location.href = "{{url('player/game')}}";
+      }
     }
   </script>
 </body>
