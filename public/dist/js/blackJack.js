@@ -27,7 +27,7 @@ class carta {
         this.palo = palo;
         
         // Asignar valor 10 a J, Q, K
-        if (valor >= 11 && valor <= 13) {
+        if (valor === 11 || valor === 12 || valor === 13) {
             this.valor = 10;
         } else {
             this.valor = valor;
@@ -215,11 +215,17 @@ async function plantarme() {
     }
 
     // Sacamos cartas de la Casa y contamos sus puntos
-    while (pointsCasa < 17) {
-        cartasCasa.push(cartas[indiceCarta]);
-        pointsCasa += cartas[indiceCarta].valor;
-        indiceCarta++;
+while (pointsCasa < 17) {
+    let currentCard = cartas[indiceCarta];
+    if (currentCard.valor >= 11 && currentCard.valor <= 13) {
+        // Si la carta es J, Q o K, añadimos 10 puntos a la puntuación de la Casa
+        pointsCasa += 10 * (currentCard.valor - 10); // Multiplicamos por la cantidad de veces que aparece
+    } else {
+        pointsCasa += currentCard.valor;
     }
+    cartasCasa.push(currentCard);
+    indiceCarta++;
+}
 
     // Puntos de la partida se ponen en info
     info.innerHTML = "Puntuación jugador: " + pointsUser + "<br>Puntuación de la Casa: " + pointsCasa;
@@ -234,7 +240,7 @@ async function plantarme() {
     // Inicializamos puntosWin
     pointsWin = 0;
 
-    // Comprobamos si hay empate
+// Comprobamos si hay empate
 if (pointsUser === pointsCasa) {
     info.innerHTML += "<br><b>Has quedado en empate.</b>";
 } else {
@@ -245,7 +251,7 @@ if (pointsUser === pointsCasa) {
     } else if (pointsUser <= 21 && pointsCasa > 21) {
         info.innerHTML += "<br><b>Has ganado!!! La casa se ha pasado de puntos</b>";
         pointsWin += 50; // Aumentar puntos si la casa se pasa de puntos
-    } else if (pointsUser <= 21 && pointsCasa <= 21 && pointsUser > pointsCasa) {
+    } else if (pointsUser <= 21 && (pointsCasa <= 21 && pointsUser > pointsCasa)) {
         info.innerHTML += "<br><b>Has ganado!!!</b>";
         pointsWin += 50; // Aumentar puntos si el jugador gana
     } else if (pointsCasa <= 21 && pointsCasa > pointsUser) {
