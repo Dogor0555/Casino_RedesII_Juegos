@@ -235,25 +235,25 @@ async function plantarme() {
     pointsWin = 0;
 
     // Comprobamos si hay empate
-    if (pointsUser == pointsCasa) {
-        info.innerHTML += "<br><b>Has quedado en empate.</b>";
+if (pointsUser === pointsCasa) {
+    info.innerHTML += "<br><b>Has quedado en empate.</b>";
+} else {
+    // Comprobamos ganador
+    if (pointsUser === 21) {
+        info.innerHTML += "<br><b> ¡BLACKJACK! GANAS 100 PUNTOS</b>";
+        pointsWin += 100; // Aumentar puntos si el jugador obtiene Blackjack
+    } else if (pointsUser <= 21 && pointsCasa > 21) {
+        info.innerHTML += "<br><b>Has ganado!!! La casa se ha pasado de puntos</b>";
+        pointsWin += 50; // Aumentar puntos si la casa se pasa de puntos
+    } else if (pointsUser <= 21 && pointsCasa <= 21 && pointsUser > pointsCasa) {
+        info.innerHTML += "<br><b>Has ganado!!!</b>";
+        pointsWin += 50; // Aumentar puntos si el jugador gana
+    } else if (pointsCasa <= 21 && pointsCasa > pointsUser) {
+        info.innerHTML += "<br><b>Ha ganado La Casa...</b>";
     } else {
-        // Comprobamos ganador
-        if (pointsUser == 21) {
-            info.innerHTML += "<br><b> ¡BLACKJACK! GANAS 100 PUNTOS</b>";
-            pointsWin += 100; // Aumentar puntos si el jugador obtiene Blackjack
-        }else if (pointsCasa > 21 && pointsUser < 21) {
-            info.innerHTML += "<br><b>Has ganado!!! La casa se ha pasado de puntos</b>";
-            pointsWin += 50; // Aumentar puntos si la casa se pasa de puntos
-        } else if (pointsUser > 21 && pointsCasa < 21) {
-            info.innerHTML += "<br><b>Ha ganado La Casa... Te has pasado de puntos</b>";
-        } else if (pointsCasa >= pointsUser) {
-            info.innerHTML += "<br><b>Ha ganado La Casa...</b>";
-        } else {
-            info.innerHTML += "<br><b>Has ganado!!!</b>";
-            pointsWin += 50; // Aumentar puntos si el jugador gana
-        }
+        info.innerHTML += "<br><b>Ha ganado La Casa... Te has pasado de puntos</b>";
     }
+}
 
     // Enviar datos al servidor
     var ruta = $("#rutaGuardarPuntaje").val();

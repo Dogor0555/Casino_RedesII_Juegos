@@ -97,8 +97,6 @@ function plantarme() {
 	} else if (pointsCrupier == pointsUser) {
 		info.innerHTML += "<br><b>Han empatado...</b>";
 		
-	}else {
-		info.innerHTML += "<br><b>Has ganado!!!</b>";
 	}
 }
 
