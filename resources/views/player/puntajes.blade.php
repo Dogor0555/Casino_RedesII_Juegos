@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" href="{{url('public/images/LOGOCA.jpeg')}}" type="image/x-icon">
+  <link rel="icon" href="{{ url('public/images/LOGOCA.jpeg') }}" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>{{!empty($header_title) ? $header_title : ''}} - Casino Black Wing</title>
-  
+  <title>{{ !empty($header_title) ? $header_title : '' }} - Casino Black Wing</title>
   <link href="https://fonts.googleapis.com/css?family=Calisto+MT|Brush+Script+MT" rel="stylesheet">
   <title>Black Jack - Puntajes</title>
   <style>
@@ -25,7 +24,7 @@
         width: 100%;
         margin: 0 auto;
         background-color: #1c1c1c;
-        box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         border-radius: 12px;
         overflow: hidden;
         border: 2px solid #e2b04a;
@@ -49,6 +48,10 @@
         height: 40px;
         width: 40px;
         border-radius: 50%;
+    }
+    .table-container {
+        overflow-y: auto;
+        max-height: 400px; /* Ajusta esta altura según sea necesario */
     }
     table {
         width: 100%;
@@ -90,57 +93,58 @@
         background-color: #b88632;
     }
     .user-score {
-  text-align: center;
-  color: #FFD700;
-  font-weight: bold;
-  animation: shine 2s infinite;
-}
+        text-align: center;
+        color: #FFD700;
+        font-weight: bold;
+        animation: shine 2s infinite;
+    }
 
-@keyframes shine {
-  0% {
-    text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
-    transform: scale(1);
-  }
-  50% {
-    text-shadow: 0 0 20px #FFD700, 0 0 30px #FFA500, 0 0 40px #FFA500;
-    transform: scale(1.1);
-  }
-  100% {
-    text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
-    transform: scale(1);
-  }
-}
+    @keyframes shine {
+        0% {
+            text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
+            transform: scale(1);
+        }
+        50% {
+            text-shadow: 0 0 20px #FFD700, 0 0 30px #FFA500, 0 0 40px #FFA500;
+            transform: scale(1.1);
+        }
+        100% {
+            text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
+            transform: scale(1);
+        }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-  <div class="header">
-    <a href="{{ url('player/menu') }}" class="boton_regresar">Regresar</a>
-    <a class="user-name">{{ Auth::user()->name }} {{ Auth::user()->last_name }} (Tú)</a>
-    @if ($puntajeUsuario)
+    <div class="header">
+      <a href="{{ url('player/menu') }}" class="boton_regresar">Regresar</a>
+      <a class="user-name">{{ Auth::user()->name }} {{ Auth::user()->last_name }} (Tú)</a>
+      @if ($puntajeUsuario)
         <span class="user-score">SCORE: {{ $puntajeUsuario->puntos_ganados }}</span>
-    @endif
-    <img src="{{ url('public/user-profile/' . Auth::user()->user_photo) }}" class="img-circle elevation-2 rounded-circle" alt="User Image">
-</div>
-
-    <table id="tablaPuntajes">
-      <thead>
-        <tr>
-          <th>TOP</th>
-          <th>Usuario</th>
-          <th>Puntos ganados</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach ($puntajes as $index => $puntaje)
+      @endif
+      <img src="{{ url('public/user-profile/' . Auth::user()->user_photo) }}" class="img-circle elevation-2 rounded-circle" alt="User Image">
+    </div>
+    <div class="table-container">
+      <table id="tablaPuntajes">
+        <thead>
           <tr>
-            <td>{{ $index + 1 }}</td>
-            <td>{{ $puntaje->usuario->name }} {{ $puntaje->usuario->last_name }}</td>
-            <td>{{ $puntaje->puntos_ganados }}</td>
+            <th>TOP</th>
+            <th>Usuario</th>
+            <th>Puntos ganados</th>
           </tr>
-        @endforeach
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @foreach ($puntajes as $index => $puntaje)
+            <tr>
+              <td>{{ $index + 1 }}</td>
+              <td>{{ $puntaje->usuario->name }} {{ $puntaje->usuario->last_name }}</td>
+              <td>{{ $puntaje->puntos_ganados }}</td>
+            </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <script src="{{ url('public/plugins/jquery/jquery.min.js') }}"></script>
@@ -153,12 +157,11 @@
   <script type="text/javascript">
     let table = new DataTable('#tablaPuntajes', {
       "order": [[2, "desc"]],
-
-
+      "paging": false, // Disable pagination
       "language": {
         "search": "Buscar:",
         "lengthMenu": "Mostrar _MENU_ entradas por página",
-        "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+        "info": "Mostrando _TOTAL_ entradas",
         "infoEmpty": "Mostrando 0 a 0 de 0 entradas",
         "infoFiltered": "(filtrado de _MAX_ entradas totales)",
         "paginate": {
@@ -172,10 +175,6 @@
         "loadingRecords": "Cargando...",
         "processing": "Procesando..."
       }
-
-
-
-
     });
   </script>
 </body>

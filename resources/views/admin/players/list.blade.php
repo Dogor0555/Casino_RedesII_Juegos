@@ -173,32 +173,7 @@
     
     /* Estilos de paginación */
     .pagination {
-      display: flex;
-      justify-content: center;
-      margin-top: 1rem;
-    }
-    .pagination li {
-      margin: 0 5px;
-      display: inline-block;
-    }
-    .pagination li a {
-      padding: 5px 10px;
-      
-      color: #fff;
-      border-radius: 5px;
-      text-decoration: none;
-      transition: background-color 0.3s;
-	  background-color: #e2b04a;
-    }
-    .pagination li a:hover {
-		background-color: #fbbf24;
-    }
-
-
-    .pagination-container {
-     display: flex;
-      justify-content: center;
-     margin-top: 1rem;
+      display: none; /* Ocultar paginación */
     }
 
     .search-container {
@@ -258,9 +233,6 @@
       </li>
       @endforeach
     </ul>
-    <div class="pagination-container">
-      {{ $getRecord->links() }}
-    </div>
   </div>
 
   <script>

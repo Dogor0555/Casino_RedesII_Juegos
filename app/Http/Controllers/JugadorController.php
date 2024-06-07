@@ -18,18 +18,19 @@ class JugadorController extends Controller
     public function list(Request $request)
     {
         $search = $request->query('search');
-
+    
         $data['getRecord'] = Jugador::where('user_type', 3)
             ->when($search, function ($query, $search) {
                 return $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('last_name', 'like', '%' . $search . '%')
                     ->orWhere('email', 'like', '%' . $search . '%');
             })
-            ->paginate(10);
-
+            ->get(); // Cambiado a get() para obtener todos los registros sin paginación
+    
         $data["header_title"] = "Player List";
         return view("admin.players.list", $data);
     }
+    
 
 
     public function add(){

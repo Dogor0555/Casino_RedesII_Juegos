@@ -50,11 +50,10 @@ class PuntajesController extends Controller
     return response()->json($respuesta);
 }
 
-  public function showPuntaje() {
-    // Obtener los primeros 10 puntajes más altos
+public function showPuntaje() {
+    // Obtener todos los puntajes más altos, ordenados de mayor a menor
     $puntajes = PuntajesModel::with('usuario')
                 ->orderBy('puntos_ganados', 'desc')
-                ->take(10)
                 ->get();
 
     // Obtener el puntaje del usuario actual
@@ -63,5 +62,6 @@ class PuntajesController extends Controller
     // Pasar los puntajes y el puntaje del usuario a la vista
     return view('player.puntajes', compact('puntajes', 'puntajeUsuario'));
 }
+
 
 }
