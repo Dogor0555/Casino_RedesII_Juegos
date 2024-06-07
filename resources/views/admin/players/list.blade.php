@@ -255,7 +255,7 @@
       <a href="{{ url('admin/menu') }}" class="boton_regresar">&#10094;</a>
       <div class="search-container">
         <input type="text" class="search-input" id="search-input" placeholder="Buscar jugador...">
-        
+        <button class="add-button" onclick="window.location.href='{{ url('admin/players/add') }}'">Agregar Jugador</button>
       </div>
     </div>
     <ul id="player-list">
