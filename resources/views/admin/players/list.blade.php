@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" href="{{url('public/images/LOGOCA.jpeg')}}" type="image/x-icon">
+  <link rel="icon" href="{{ url('public/images/LOGOCA.jpeg') }}" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>{{!empty($header_title) ? $header_title : ''}} - Casino Black Wing</title>
+  <title>{{ !empty($header_title) ? $header_title : '' }} - Casino Black Wing</title>
   <link rel="stylesheet" href="{{ asset('public/dist/css/menu.css') }}">
   <link href="https://fonts.googleapis.com/css?family=Calisto+MT|Brush+Script+MT" rel="stylesheet">
   <title>Black Jack - ADMIN</title>
@@ -161,12 +161,12 @@
     .boton_regresar:active {
       background-color: #b88632;
     }
-    /* Estilos del botón Agregar Administrador */
+    /* Estilos del botón Agregar Jugador */
     .add-button {
       background: #28a745; /* Color verde */
     }
 
-    /* Estilos del botón Editar Administrador */
+    /* Estilos del botón Editar Jugador */
     .edit-button {
       background: #fbbf24; /* Color amarillo */
     }
@@ -203,6 +203,49 @@
       background-color: #218838;
     }
 
+    /* Estilos de la ventana modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: Green;
+      margin: 8% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      color: white;
+      font-weight: bold;
+    }
+
+    .modal button {
+      background-color: #fbbf24;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .modal button:hover {
+      background-color: #e2b04a;
+    }
+
+    .modal button:active {
+      background-color: #d4a03b;
+    }
   </style>
 </head>
 <body class="dark">
@@ -212,7 +255,7 @@
       <a href="{{ url('admin/menu') }}" class="boton_regresar">&#10094;</a>
       <div class="search-container">
         <input type="text" class="search-input" id="search-input" placeholder="Buscar jugador...">
-        <button class="add-button" onclick="window.location.href='{{ url('admin/players/add') }}'">Agregar Jugador</button>
+        
       </div>
     </div>
     <ul id="player-list">
@@ -224,18 +267,66 @@
         </div>
         <div class="action-buttons">
           <button class="edit-button" onclick="window.location.href='{{ url('admin/players/edit/' . $user->id) }}'">Editar Jugador</button>
-          <form action="{{ url('admin/players/list/' . $user->id) }}" method="POST" style="display:inline;">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="delete" onclick="return confirm('¿Estás seguro de que deseas eliminar este jugador?')">Eliminar Jugador</button>
-          </form>
+          <button type="button" class="delete" onclick="showModal({{ $user->id }})">Eliminar Jugador</button>
         </div>
       </li>
       @endforeach
     </ul>
   </div>
 
+  <!-- Ventana modal -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <p>¿Estás seguro que deseas eliminar el jugador?</p>
+      <div style="text-align: center; margin-top: 20px;">
+        <button id="confirmDelete">OK</button>
+        <button id="cancelDelete">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // Obtener el modal
+    var modal = document.getElementById("myModal");
+
+    // Obtener los botones del modal
+    var confirmDeleteBtn = document.getElementById("confirmDelete");
+    var cancelDeleteBtn = document.getElementById("cancelDelete");
+
+    var deleteFormAction = "";
+
+    function showModal(userId) {
+      modal.style.display = "block";
+      deleteFormAction = "{{ url('admin/players/list') }}/" + userId;
+
+      confirmDeleteBtn.onclick = function() {
+        // Crear y enviar el formulario de eliminación
+        var form = document.createElement("form");
+        form.method = "POST";
+        form.action = deleteFormAction;
+
+        var csrfField = document.createElement("input");
+        csrfField.type = "hidden";
+        csrfField.name = "_token";
+        csrfField.value = "{{ csrf_token() }}";
+        form.appendChild(csrfField);
+
+        var methodField = document.createElement("input");
+        methodField.type = "hidden";
+        methodField.name = "_method";
+        methodField.value = "DELETE";
+        form.appendChild(methodField);
+
+        document.body.appendChild(form);
+        form.submit();
+      };
+
+      cancelDeleteBtn.onclick = function() {
+        modal.style.display = "none";
+      };
+    }
+
+    // Búsqueda en tiempo real
     document.getElementById('search-input').addEventListener('input', function() {
       let query = this.value.toLowerCase();
       let playerList = document.getElementById('player-list');
