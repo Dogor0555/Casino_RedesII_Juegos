@@ -267,7 +267,7 @@
         </div>
         <div class="action-buttons">
           <button class="edit-button" onclick="window.location.href='{{ url('admin/players/edit/' . $user->id) }}'">Editar Jugador</button>
-          <button type="button" class="delete" onclick="showModal({{ $user->id }})">Eliminar Jugador</button>
+          <button type="button" class="delete" onclick="showModal({{ $user->id }}, '{{ $user->name }} {{ $user->last_name }}')">Eliminar Jugador</button>
         </div>
       </li>
       @endforeach
@@ -277,7 +277,7 @@
   <!-- Ventana modal -->
   <div id="myModal" class="modal">
     <div class="modal-content">
-      <p>¿Estás seguro que deseas eliminar el jugador?</p>
+      <p>¿Estás seguro que deseas eliminar al jugador <span id="modal-player-name"></span>?</p>
       <div style="text-align: center; margin-top: 20px;">
         <button id="confirmDelete">OK</button>
         <button id="cancelDelete">Cancelar</button>
@@ -288,42 +288,55 @@
   <script>
     // Obtener el modal
     var modal = document.getElementById("myModal");
+    var modalPlayerName = document.getElementById("modal-player-name");
 
     // Obtener los botones del modal
     var confirmDeleteBtn = document.getElementById("confirmDelete");
     var cancelDeleteBtn = document.getElementById("cancelDelete");
 
-    var deleteFormAction = "";
+    var deleteUserId = null;
 
-    function showModal(userId) {
+    function showModal(userId, playerName) {
       modal.style.display = "block";
-      deleteFormAction = "{{ url('admin/players/list') }}/" + userId;
+      deleteUserId = userId;
+      modalPlayerName.textContent = playerName;
 
       confirmDeleteBtn.onclick = function() {
-        // Crear y enviar el formulario de eliminación
-        var form = document.createElement("form");
-        form.method = "POST";
-        form.action = deleteFormAction;
-
-        var csrfField = document.createElement("input");
-        csrfField.type = "hidden";
-        csrfField.name = "_token";
-        csrfField.value = "{{ csrf_token() }}";
-        form.appendChild(csrfField);
-
-        var methodField = document.createElement("input");
-        methodField.type = "hidden";
-        methodField.name = "_method";
-        methodField.value = "DELETE";
-        form.appendChild(methodField);
-
-        document.body.appendChild(form);
-        form.submit();
+        deleteUser(deleteUserId);
       };
 
       cancelDeleteBtn.onclick = function() {
         modal.style.display = "none";
       };
+    }
+
+    function deleteUser(userId) {
+      const csrfToken = "{{ csrf_token() }}";
+      const url = "{{ url('admin/players/list') }}/" + userId;
+
+      fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-TOKEN": csrfToken
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          // Eliminar el elemento del DOM
+          const playerList = document.getElementById('player-list');
+          const playerElement = playerList.querySelector(`li .user-info span:contains("${userId}")`);
+          if (playerElement) {
+            playerElement.parentNode.parentNode.remove();
+          }
+          modal.style.display = "none";
+        } else {
+          console.error("Error al eliminar el jugador");
+        }
+      })
+      .catch(error => {
+        console.error("Error al realizar la solicitud:", error);
+      });
     }
 
     // Búsqueda en tiempo real
